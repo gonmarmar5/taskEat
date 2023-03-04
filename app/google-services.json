@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "634029091886",
+    "project_id": "taskeat-d0db2",
+    "storage_bucket": "taskeat-d0db2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:634029091886:android:704ba46168f7b8641e03bf",
+        "android_client_info": {
+          "package_name": "com.example.taskeat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "634029091886-9kjb774hr9gqlp3kuftu2phef7dn03bd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYJPT2ltcWHA2wmYPxkmZ9zI_Woerh47w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "634029091886-9kjb774hr9gqlp3kuftu2phef7dn03bd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
