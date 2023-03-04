@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
 }
+
 android {
     namespace 'com.example.taskeat'
     compileSdk 33
@@ -48,4 +49,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation platform('com.google.firebase:firebase-bom:31.2.3')
+    implementation 'com.google.firebase:firebase-firestore-ktx'
 }
