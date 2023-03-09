@@ -55,8 +55,6 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/white"
-            android:boxStrokeWidth="0dp"
-            android:boxStrokeWidthFocussed="0dp"
             app:hintEnabled="false">
 
 
@@ -95,8 +93,6 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/white"
-            android:boxStrokeWidth="0dp"
-            android:boxStrokeWidthFocussed="0dp"
             app:passwordToggleEnabled="true"
             app:hintEnabled="false">
 
