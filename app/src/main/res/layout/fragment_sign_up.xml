@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background"
     tools:context=".fragments.SignUpFragment">
 
+    <!-- Shape to center register -->
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/shape1"
         android:layout_width="60dp"
-        android:layout_height="130dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="100dp"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,27 +20,32 @@
 
     </com.google.android.material.imageview.ShapeableImageView>
 
+    <!-- Text Registrate -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="600dp"
         android:gravity="center_horizontal"
-        android:textSize="28sp"
         android:text="Regístrate"
         android:textColor="@color/white"
+        android:textSize="38sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-        ></TextView>
+        app:layout_constraintStart_toStartOf="parent">
+        </TextView>
 
+    <!-- Email form -->
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:flow_horizontalBias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginHorizontal="16dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="8dp"
         app:cardUseCompatPadding="true"
+        app:flow_horizontalBias="0.5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/shape1">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -51,17 +58,139 @@
 
 
             <com.google.android.material.textfield.TextInputEditText
-                android:layout_height="match_parent"
+                android:id="@+id/emailEt"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@color/white"
                 android:hint="Introduce tu correo"
                 android:inputType="textEmailAddress"
                 android:paddingStart="12dp"
+                android:paddingEnd="12dp"
                 android:paddingTop="15dp">
 
             </com.google.android.material.textfield.TextInputEditText>
 
         </com.google.android.material.textfield.TextInputLayout>
     </com.google.android.material.card.MaterialCardView>
+
+    <!-- Pass form -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="8dp"
+        app:cardUseCompatPadding="true"
+        app:flow_horizontalBias="0.5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/shape1">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            android:boxStrokeWidth="0dp"
+            android:boxStrokeWidthFocussed="0dp"
+            app:passwordToggleEnabled="true"
+            app:hintEnabled="false">
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/passwordEt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:hint="Introduce tu contraseña"
+                android:inputType="textEmailAddress"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="15dp">
+
+            </com.google.android.material.textfield.TextInputEditText>
+
+        </com.google.android.material.textfield.TextInputLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Pass form 2 -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="8dp"
+        app:cardUseCompatPadding="true"
+        app:flow_horizontalBias="0.5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card2">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            android:boxStrokeWidth="0dp"
+            android:boxStrokeWidthFocussed="0dp"
+            app:passwordToggleEnabled="true"
+            app:hintEnabled="false">
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/repasswordEt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:hint="Vuelve a introducir tu contraseña"
+                android:inputType="textEmailAddress"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="15dp">
+
+            </com.google.android.material.textfield.TextInputEditText>
+
+        </com.google.android.material.textfield.TextInputLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Botón siguiente -->
+    
+    <ImageView
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:src="@color/white"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintEnd_toEndOf="@id/card3"
+        app:layout_constraintTop_toBottomOf="@id/card3">
+
+
+    </ImageView>
+    
+    <!-- Ya con cuenta -->
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¿Ya tienes cuenta?"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@id/card3"
+        app:layout_constraintTop_toBottomOf="@id/card3"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp">
+    </TextView>
+
+    <!-- Inicia sesión -->
+    <TextView
+        android:id="@+id/authTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Inicia Sesión"
+        android:textColor="@color/electric_purple"
+        app:layout_constraintStart_toStartOf="@id/card3"
+        app:layout_constraintTop_toBottomOf="@id/card3"
+        android:layout_marginLeft="145dp"
+        android:layout_marginTop="10dp">
+    </TextView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
