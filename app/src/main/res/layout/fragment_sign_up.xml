@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@drawable/background"
     tools:context=".fragments.SignUpFragment">
 
     <!-- Shape to center register -->
@@ -21,20 +21,23 @@
     </com.google.android.material.imageview.ShapeableImageView>
 
     <!-- Text Registrate -->
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="600dp"
+        android:layout_marginBottom="510dp"
+        android:fontFamily="@font/always_smile"
         android:gravity="center_horizontal"
+        android:paddingTop="160dp"
         android:text="Regístrate"
         android:textColor="@color/white"
-        android:textSize="38sp"
+        android:textSize="68sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-        </TextView>
+        app:layout_constraintStart_toStartOf="parent"></TextView>
 
     <!-- Email form -->
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card1"
         android:layout_width="0dp"
@@ -119,7 +122,7 @@
     <ImageView
         android:layout_width="55dp"
         android:layout_height="55dp"
-        android:src="@drawable/next-page.png"
+        android:src="@drawable/next_page"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="12dp"
         app:layout_constraintEnd_toEndOf="@id/card2"
