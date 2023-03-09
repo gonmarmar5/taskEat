@@ -66,6 +66,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/white"
                 android:hint="Introduce tu correo"
+                android:layout_marginBottom="5dp"
                 android:inputType="textEmailAddress"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
@@ -106,6 +107,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/white"
                 android:hint="Introduce tu contraseña"
+                android:layout_marginBottom="5dp"
                 android:inputType="textEmailAddress"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
@@ -116,32 +118,30 @@
         </com.google.android.material.textfield.TextInputLayout>
     </com.google.android.material.card.MaterialCardView>
 
-
     <!-- Botón siguiente -->
-    
-    <ImageView
+
+    <Button
         android:id="@+id/nextBtn"
-        android:layout_width="55dp"
+        android:layout_width="255dp"
         android:layout_height="55dp"
-        android:src="@drawable/next_page"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="50dp"
+        android:src="@color/electric_purple"
+        android:text="Registrarse"
         app:layout_constraintEnd_toEndOf="@id/card2"
         app:layout_constraintTop_toBottomOf="@id/card2">
+    </Button>
 
-
-    </ImageView>
-    
     <!-- Ya con cuenta -->
-    
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="¿Ya tienes cuenta?"
+        android:text="¿Todavía no tienes cuenta?"
         android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="@id/card2"
-        app:layout_constraintTop_toBottomOf="@id/card2"
-        android:layout_marginLeft="20dp"
+        app:layout_constraintStart_toStartOf="@+id/nextBtn"
+        app:layout_constraintTop_toBottomOf="@+id/nextBtn"
+        android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp">
     </TextView>
 
@@ -150,11 +150,11 @@
         android:id="@+id/authTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Inicia Sesión"
+        android:text="Registrate"
         android:textColor="@color/electric_purple"
-        app:layout_constraintStart_toStartOf="@id/card2"
-        app:layout_constraintTop_toBottomOf="@id/card2"
-        android:layout_marginLeft="145dp"
+        app:layout_constraintStart_toStartOf="@+id/nextBtn"
+        app:layout_constraintTop_toBottomOf="@+id/nextBtn"
+        android:layout_marginLeft="180dp"
         android:layout_marginTop="10dp">
     </TextView>
 
