@@ -120,6 +120,7 @@
     <!-- Botón siguiente -->
     
     <ImageView
+        android:id="@+id/nextBtn"
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:src="@drawable/next_page"
