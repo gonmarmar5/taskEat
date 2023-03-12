@@ -9,7 +9,7 @@ import java.security.Principal
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_sign_in)
+        setContentView(R.layout.activity_main)
     }
 
 

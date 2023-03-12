@@ -3,6 +3,7 @@ package com.example.taskeat.fragments
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +20,7 @@ import kotlinx.coroutines.delay
  * create an instance of this fragment.
  */
 class SplashFragment : Fragment() {
-    private lateinit var auth: FirebaseAuth
+    private lateinit var mAuth: FirebaseAuth
     private lateinit var navController: NavController
 
     override fun onCreateView(
@@ -27,21 +28,29 @@ class SplashFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        println("OnCreateView splash")
         return inflater.inflate(R.layout.fragment_splash, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        auth = FirebaseAuth.getInstance()
-        navController = Navigation.findNavController(view)
+        init(view)
+        println("On view created splash")
+        val isLogin: Boolean = mAuth.currentUser != null
 
-        Handler(Looper.myLooper()!!).postDelayed(Runnable {
-            if (auth.currentUser != null){
+        val handler = Handler(Looper.myLooper()!!)
+        handler.postDelayed({
+
+            if (isLogin)
                 navController.navigate(R.id.action_splashFragment_to_homeFragment)
-            }else{
+            else
                 navController.navigate(R.id.action_splashFragment_to_signInFragment)
-            }
+
         }, 2000)
+    }
+    private fun init(view: View) {
+        mAuth = FirebaseAuth.getInstance()
+        navController = Navigation.findNavController(view)
     }
 }
