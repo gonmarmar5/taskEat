@@ -1,9 +1,13 @@
 <resources>
-    <string name="app_name">KotlinToDoPractice</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="app_name">Task Eat</string>
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="enter_your_email">Enter Your Email .....</string>
-    <string name="enter_your_pass">Enter Your Password .....</string>
-    <string name="re_enter_your_pass">Re-enter Your Password .....</string>
+    <string name="enter_your_email">Introduce tu correo .....</string>
+    <string name="enter_your_pass">Introduce tu contraseña .....</string>
+    <string name="login"> Inicia Sesión</string>
+    <string name="register"> Regístrate </string>
+    <string name="not_registered">¿No estás registrado aún? </string>
+    <string name="with_account"> ¿Ya tienes una cuenta? </string>
+    <string name="re_enter_your_pass">Vuelve a introducir tu contraseña .....</string>
     <string name="type_your_task">Type your task .....</string>
 </resources>

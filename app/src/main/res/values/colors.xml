@@ -10,4 +10,7 @@
 
     <color name="text_color">#21108A</color>
     <color name="secondary_color">#D5CEFF</color>
+    <color name="background">#1A1A2F</color>
+    <color name="background_task">#242443</color>
+    <color name="electric_purple">#7A12FF</color>
 </resources>
