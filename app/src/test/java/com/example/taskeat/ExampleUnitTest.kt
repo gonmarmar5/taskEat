@@ -1,4 +1,4 @@
-package com.example.kotlintodopractice
+package com.example.taskeat
 
 import org.junit.Test
 

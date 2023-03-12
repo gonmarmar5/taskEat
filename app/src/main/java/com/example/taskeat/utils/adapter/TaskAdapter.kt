@@ -1,11 +1,11 @@
-package com.example.kotlintodopractice.utils.adapter
+package com.example.taskeat.utils.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kotlintodopractice.databinding.EachTodoItemBinding
-import com.example.kotlintodopractice.utils.model.ToDoData
+import com.example.taskeat.databinding.EachTodoItemBinding
+import com.example.taskeat.utils.model.ToDoData
 
 class TaskAdapter(private val list: MutableList<ToDoData>) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
 

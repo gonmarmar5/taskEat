@@ -1,4 +1,4 @@
-package com.example.kotlintodopractice.fragments
+package com.example.taskeat.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,8 +8,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import com.example.kotlintodopractice.R
-import com.example.kotlintodopractice.databinding.FragmentSignUpBinding
+import com.example.taskeat.R
+import com.example.taskeat.databinding.FragmentSignUpBinding
 import com.google.firebase.auth.FirebaseAuth
 
 

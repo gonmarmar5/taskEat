@@ -1,4 +1,4 @@
-package com.example.kotlintodopractice
+package com.example.taskeat
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
