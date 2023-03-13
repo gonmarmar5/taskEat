@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "KotlinToDoPractice"
+rootProject.name = "TaskEat"
 include ':app'
