@@ -110,7 +110,6 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
 
     override fun saveTask(todoTask: String, todoEdit: TextInputEditText) {
 
-        println(todoTask)
         database
             .push().setValue(todoTask)
             .addOnCompleteListener {
