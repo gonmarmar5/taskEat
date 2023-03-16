@@ -40,9 +40,8 @@ class SignInFragment : Fragment() {
         binding.nextBtn.setOnClickListener {
             val email = binding.emailEt.text.toString()
             val pass = binding.passEt.text.toString()
-
+            println(pass)
             if (email.isNotEmpty() && pass.isNotEmpty())
-
                 loginUser(email, pass)
             else
                 Toast.makeText(context, "Empty fields are not allowed", Toast.LENGTH_SHORT).show()

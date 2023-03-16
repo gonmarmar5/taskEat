@@ -112,14 +112,17 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
 
     override fun saveTask(todoTask: String, todoEdit: TextInputEditText) {
 
+        println(todoTask)
         database
             .push().setValue(todoTask)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
+                    println("succesful")
                     Toast.makeText(context, "Task Added Successfully", Toast.LENGTH_SHORT).show()
                     todoEdit.text = null
 
                 } else {
+                    println("not succesful")
                     Toast.makeText(context, it.exception.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
