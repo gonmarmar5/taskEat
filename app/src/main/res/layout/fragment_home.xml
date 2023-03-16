@@ -82,7 +82,7 @@
         android:orientation="horizontal"
         android:padding="5dp"
         android:background="@drawable/layout_bg"
-        app:layout_constraintStart_toBottomOf="@id/addListBtn"
+        app:layout_constraintStart_toEndOf="@id/addListBtn"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
@@ -95,7 +95,7 @@
             android:fontFamily="@font/roboto_regular"
             android:textAllCaps="false"
             android:padding="0dp"
-            android:background="color/transparent"
+            android:background="@color/transparent"
             app:layout_constraintWidth_percent="0.1"/>
 
         <Button
@@ -104,7 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableTop="@drawable/listas_b"
-            android:background="color/transparent"
+            android:background="@color/transparent"
             android:textAllCaps="false"
             android:fontFamily="@font/roboto_regular"
             android:text="Listas"
@@ -117,7 +117,7 @@
             android:layout_weight="1"
             android:drawableTop="@drawable/calendario_g"
             android:fontFamily="@font/roboto_regular"
-            android:background="color/transparent"
+            android:background="@color/transparent"
             android:text="@string/calendar"
             android:textAllCaps="false"
             android:padding="0dp"/>
