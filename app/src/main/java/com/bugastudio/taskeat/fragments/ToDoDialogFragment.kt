@@ -1,12 +1,12 @@
-package com.example.taskeat.fragments
+package com.bugastudio.taskeat.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.example.taskeat.databinding.FragmentToDoDialogBinding
-import com.example.taskeat.utils.model.ToDoData
+import com.bugastudio.taskeat.databinding.FragmentToDoDialogBinding
+import com.bugastudio.taskeat.utils.model.ToDoData
 import com.google.android.material.textfield.TextInputEditText
 
 

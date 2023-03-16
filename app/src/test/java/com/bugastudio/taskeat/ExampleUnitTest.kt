@@ -1,4 +1,4 @@
-package com.example.taskeat
+package com.bugastudio.taskeat
 
 import org.junit.Test
 

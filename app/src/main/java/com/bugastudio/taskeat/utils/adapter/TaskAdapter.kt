@@ -1,11 +1,11 @@
-package com.example.taskeat.utils.adapter
+package com.bugastudio.taskeat.utils.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.taskeat.databinding.EachTodoItemBinding
-import com.example.taskeat.utils.model.ToDoData
+import com.bugastudio.taskeat.databinding.EachTodoItemBinding
+import com.bugastudio.taskeat.utils.model.ToDoData
 
 class TaskAdapter(private val list: MutableList<ToDoData>) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
 

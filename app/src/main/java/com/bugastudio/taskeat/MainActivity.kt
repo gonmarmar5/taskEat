@@ -1,11 +1,7 @@
-package com.example.taskeat
+package com.bugastudio.taskeat
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import android.util.Log
-import android.content.ContentValues.TAG
 
 class MainActivity : AppCompatActivity() {
 

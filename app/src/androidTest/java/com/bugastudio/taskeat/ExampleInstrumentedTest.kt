@@ -1,4 +1,4 @@
-package com.example.taskeat
+package com.bugastudio.taskeat
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
