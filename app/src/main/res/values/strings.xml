@@ -14,4 +14,6 @@
     <string name="calendar"> Calendario </string>
     <string name="lists"> Listas </string>
     <string name="menu"> Menu </string>
+    <string name="hi"> Hola Trucker </string>
+    <string name="my_tasks">Tienes 4 alimentos en tus listas</string>
 </resources>
