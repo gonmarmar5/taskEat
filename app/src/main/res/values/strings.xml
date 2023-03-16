@@ -10,4 +10,8 @@
     <string name="with_account"> ¿Ya tienes una cuenta? </string>
     <string name="re_enter_your_pass">Vuelve a introducir tu contraseña...</string>
     <string name="type_your_task">Type your task .....</string>
+    <string name="new_list"> Crear nueva lista</string>
+    <string name="calendar"> Calendario </string>
+    <string name="lists"> Listas </string>
+    <string name="menu"> Menu </string>
 </resources>
