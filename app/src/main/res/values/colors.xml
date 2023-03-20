@@ -13,4 +13,5 @@
     <color name="background">#1A1A2F</color>
     <color name="background_task">#242443</color>
     <color name="electric_purple">#7A12FF</color>
+    <color name="not_selected_text"> #A1A1C1 </color>
 </resources>
