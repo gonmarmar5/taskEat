@@ -2,6 +2,7 @@ package com.bugastudio.taskeat
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.bugastudio.taskeat.R
 
 class MainActivity : AppCompatActivity() {
 
