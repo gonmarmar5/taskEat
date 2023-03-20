@@ -30,11 +30,11 @@ class ListAdapter(private val list: MutableList<ListData>) : RecyclerView.Adapte
 
                 Log.d(TAG, "onBindViewHolder: "+this)
                 binding.editTask.setOnClickListener {
-                    listener?.onEditItemClicked(this , position)
+                    listener?.onEditListClicked(this , position)
                 }
 
                 binding.deleteTask.setOnClickListener {
-                    listener?.onDeleteItemClicked(this , position)
+                    listener?.onDeleteListClicked(this , position)
                 }
             }
         }
@@ -45,8 +45,8 @@ class ListAdapter(private val list: MutableList<ListData>) : RecyclerView.Adapte
     }
 
     interface ListAdapterInterface{
-        fun onDeleteItemClicked(listData: ListData , position : Int)
-        fun onEditItemClicked(listData: ListData , position: Int)
+        fun onDeleteListClicked(listData: ListData , position : Int)
+        fun onEditListClicked(listData: ListData , position: Int)
     }
 
 }

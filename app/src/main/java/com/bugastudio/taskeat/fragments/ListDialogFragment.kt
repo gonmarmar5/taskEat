@@ -65,10 +65,10 @@ class ListDialogFragment : DialogFragment() {
             val list = binding.todoEt.text.toString()
             if (list.isNotEmpty()){
                 if (listData == null){
-                    listener?.saveTask(list , binding.todoEt)
+                    listener?.saveList(list , binding.todoEt)
                 }else{
                     listData!!.list = list
-                    listener?.updateTask(listData!!, binding.todoEt)
+                    listener?.updateList(listData!!, binding.todoEt)
                 }
 
             }
@@ -76,8 +76,8 @@ class ListDialogFragment : DialogFragment() {
     }
 
     interface OnDialogNextBtnClickListener{
-        fun saveTask(list:String , todoEdit:TextInputEditText)
-        fun updateTask(listData: ListData , todoEdit:TextInputEditText)
+        fun saveList(list:String , todoEdit:TextInputEditText)
+        fun updateList(listData: ListData , todoEdit:TextInputEditText)
     }
 
 }

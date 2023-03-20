@@ -22,8 +22,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener,
-    TaskAdapter.TaskAdapterInterface {
+class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener, ListDialogFragment.OnDialogNextBtnClickListener, ListAdapter.ListAdapterInterface, TaskAdapter.TaskAdapterInterface {
 
     private val TAG = "HomeFragment"
     private lateinit var binding: FragmentHomeBinding
@@ -149,13 +148,13 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
         taskAdapter.setListener(this)
         binding.mainRecyclerView.adapter = taskAdapter
 
-        /* TODO binding.listRecyclerView.setHasFixedSize(true) FALTARIA CREAR RECYCLER VIEW EN HOMEFRAGMENT CON ID listRecyclerView
+        binding.mainRecyclerView.setHasFixedSize(true) // FALTARIA CREAR RECYCLER VIEW EN HOMEFRAGMENT CON ID listRecyclerView
         binding.mainRecyclerView.layoutManager = LinearLayoutManager(context)
 
         listItemList = mutableListOf()
         listAdapter = ListAdapter(listItemList)
         listAdapter.setListener(this)
-        binding.mainRecyclerView.adapter = listAdapter*/
+        binding.mainRecyclerView.adapter = listAdapter
     }
 
     override fun saveTask(todoTask: String, todoEdit: TextInputEditText) {
