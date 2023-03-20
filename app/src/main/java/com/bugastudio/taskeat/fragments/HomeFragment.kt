@@ -22,7 +22,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener,  
+class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener,
     TaskAdapter.TaskAdapterInterface {
 
     private val TAG = "HomeFragment"
@@ -123,7 +123,7 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
 
                 }
                 Log.d(TAG, "onDataChange: " + listItemList)
-                taskAdapter.notifyDataSetChanged()
+                listAdapter.notifyDataSetChanged()
 
             }
 
