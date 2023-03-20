@@ -9,7 +9,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bugastudio.taskeat.databinding.FragmentHomeBinding
+import com.bugastudio.taskeat.utils.adapter.ListAdapter
 import com.bugastudio.taskeat.utils.adapter.TaskAdapter
+import com.bugastudio.taskeat.utils.model.ListData
 import com.bugastudio.taskeat.utils.model.ToDoData
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
@@ -20,18 +22,21 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener,
+class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener,  
     TaskAdapter.TaskAdapterInterface {
 
     private val TAG = "HomeFragment"
     private lateinit var binding: FragmentHomeBinding
     private lateinit var database: DatabaseReference
     private var frag: ToDoDialogFragment? = null
+    private var list_frag: ListDialogFragment? = null
     private lateinit var auth: FirebaseAuth
     private lateinit var authId: String
 
     private lateinit var taskAdapter: TaskAdapter
+    private lateinit var listAdapter: ListAdapter
     private lateinit var toDoItemList: MutableList<ToDoData>
+    private lateinit var listItemList: MutableList<ListData>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,21 +53,31 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
         init()
 
         //get data from firebase
+        getListFromFirebase()
+
+        //get data from firebase
         getTaskFromFirebase()
 
-
-        binding.addListBtn.setOnClickListener {
-
+        binding.addTaskBtn.setOnClickListener {
             if (frag != null)
                 childFragmentManager.beginTransaction().remove(frag!!).commit()
             frag = ToDoDialogFragment()
             frag!!.setListener(this)
-
             frag!!.show(
                 childFragmentManager,
                 ToDoDialogFragment.TAG
             )
+        }
 
+        binding.addListBtn.setOnClickListener {
+            if (list_frag != null)
+                childFragmentManager.beginTransaction().remove(list_frag!!).commit()
+            list_frag = ListDialogFragment()
+            list_frag!!.setListener(this)
+            list_frag!!.show(
+                childFragmentManager,
+                ListDialogFragment.TAG
+            )
         }
     }
 
@@ -93,6 +108,33 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
         })
     }
 
+    private fun getListFromFirebase() {
+        database.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                listItemList.clear()
+                for (taskSnapshot in snapshot.children) {
+                    val list =
+                        taskSnapshot.key?.let { ListData(it, taskSnapshot.value.toString()) }
+
+                    if (list != null) {
+                        listItemList.add(list)
+                    }
+
+                }
+                Log.d(TAG, "onDataChange: " + listItemList)
+                taskAdapter.notifyDataSetChanged()
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show()
+            }
+
+
+        })
+    }
+
     private fun init() {
 
         auth = FirebaseAuth.getInstance()
@@ -106,6 +148,14 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
         taskAdapter = TaskAdapter(toDoItemList)
         taskAdapter.setListener(this)
         binding.mainRecyclerView.adapter = taskAdapter
+
+        /* TODO binding.listRecyclerView.setHasFixedSize(true) FALTARIA CREAR RECYCLER VIEW EN HOMEFRAGMENT CON ID listRecyclerView
+        binding.mainRecyclerView.layoutManager = LinearLayoutManager(context)
+
+        listItemList = mutableListOf()
+        listAdapter = ListAdapter(listItemList)
+        listAdapter.setListener(this)
+        binding.mainRecyclerView.adapter = listAdapter*/
     }
 
     override fun saveTask(todoTask: String, todoEdit: TextInputEditText) {
@@ -162,4 +212,57 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
         )
     }
 
+    override fun saveList(list: String, todoEdit: TextInputEditText) {
+
+        database
+            .push().setValue(list)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    println("succesful")
+                    Toast.makeText(context, "List Added Successfully", Toast.LENGTH_SHORT).show()
+                    todoEdit.text = null
+
+                } else {
+                    println("not succesful")
+                    Toast.makeText(context, it.exception.toString(), Toast.LENGTH_SHORT).show()
+                }
+            }
+        frag!!.dismiss()
+
+    }
+
+    override fun updateList(listData: ListData, todoEdit: TextInputEditText) {
+        val map = HashMap<String, Any>()
+        map[listData.listId] = listData.list
+        database.updateChildren(map).addOnCompleteListener {
+            if (it.isSuccessful) {
+                Toast.makeText(context, "Updated Successfully", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, it.exception.toString(), Toast.LENGTH_SHORT).show()
+            }
+            frag!!.dismiss()
+        }
+    }
+
+    override fun onDeleteListClicked(listData: ListData, position: Int) {
+        database.child(listData.listId).removeValue().addOnCompleteListener {
+            if (it.isSuccessful) {
+                Toast.makeText(context, "Deleted Successfully", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, it.exception.toString(), Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    override fun onEditListClicked(listData: ListData, position: Int) {
+        if (list_frag != null)
+            childFragmentManager.beginTransaction().remove(frag!!).commit()
+
+        list_frag = ListDialogFragment.newInstance(listData.listId, listData.list)
+        list_frag!!.setListener(this)
+        list_frag!!.show(
+            childFragmentManager,
+            ToDoDialogFragment.TAG
+        )
+    }
 }
