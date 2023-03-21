@@ -2,9 +2,12 @@ package com.bugastudio.taskeat.utils.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bugastudio.taskeat.databinding.EachTodoItemBinding
+import com.bugastudio.taskeat.R
+import com.bugastudio.taskeat.databinding.EachListItemBinding
 import com.bugastudio.taskeat.utils.model.ListData
 import com.bugastudio.taskeat.utils.model.ToDoData
 
@@ -12,29 +15,38 @@ class ListAdapter(private val list: MutableList<ListData>) : RecyclerView.Adapte
 
     private  val TAG = "ListAdapter"
     private var listener:ListAdapterInterface? = null
+
     fun setListener(listener:ListAdapterInterface){
         this.listener = listener
     }
-    class ListViewHolder(val binding: EachTodoItemBinding) : RecyclerView.ViewHolder(binding.root)  //TODO CAMBIAR ECHARTODOITEM BIDING
+    class ListViewHolder(val binding: EachListItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val binding =
-            EachTodoItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            EachListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ListViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         with(holder) {
             with(list[position]) {
-                binding.todoTask.text = this.list   //TODO CAMBIAR ID TODOTASK
-
-                Log.d(TAG, "onBindViewHolder: "+this)
-                binding.editTask.setOnClickListener {
-                    listener?.onEditListClicked(this , position)
+                binding.itemTv.text = list
+                var isExpandable = this.isExpandable
+                binding.expandableLayout.visibility = if (isExpandable) View.VISIBLE else View.GONE
+                if (isExpandable) {
+                    binding.arrowImageView.setImageResource(R.drawable.arriba)
+                } else {
+                    binding.arrowImageView.setImageResource(R.drawable.abajo)
                 }
 
-                binding.deleteTask.setOnClickListener {
-                    listener?.onDeleteListClicked(this , position)
+                val adapter = TaskAdapter(nestedList.toMutableList())
+                binding.childRv.layoutManager = LinearLayoutManager(holder.itemView.context)
+                binding.childRv.setHasFixedSize(true)
+                binding.childRv.adapter = adapter
+
+                binding.linearLayout.setOnClickListener {
+                    isExpandable = !isExpandable
+                    notifyItemChanged(adapterPosition)
                 }
             }
         }

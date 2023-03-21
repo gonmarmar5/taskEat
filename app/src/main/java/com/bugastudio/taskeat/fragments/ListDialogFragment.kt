@@ -51,7 +51,9 @@ class ListDialogFragment : DialogFragment() {
 
         if (arguments != null){
 
-            listData = ListData(arguments?.getString("listId").toString() ,arguments?.getString("list").toString())
+            listData = ListData(arguments?.getString("listId").toString(), arguments?.getString("list").toString())
+
+
             binding.todoEt.setText(listData?.list)
         }
 
