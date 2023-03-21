@@ -7,8 +7,6 @@
     android:background="@drawable/back_splash"
     tools:context=".fragments.SplashFragment">
 
-
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
