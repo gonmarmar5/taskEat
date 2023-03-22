@@ -87,8 +87,9 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
                 toDoItemList.clear()
                 for (taskSnapshot in snapshot.children) {
                     val todoTask =
-                        taskSnapshot.key?.let { ToDoData(it, taskSnapshot.value.toString()) }
-
+                        taskSnapshot.key?.let { ToDoData(it, taskSnapshot.value.toString(), taskSnapshot.value.toString())}
+                    println("TODO TASK AAAAAAAAAAA")
+                    println(todoTask)
                     if (todoTask != null) {
                         toDoItemList.add(todoTask)
                     }
@@ -156,10 +157,10 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
         binding.mainRecyclerView.adapter = listAdapter
     }
 
-    override fun saveTask(todoTask: String, todoEdit: TextInputEditText) {
+    override fun saveTask(todoTask: String, todoEdit: TextInputEditText, listId: String) {
 
         database
-            .push().setValue(todoTask)
+            .push().setValue(todoTask) //         .setValue(ToDoData("", todoTask, listId))
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     println("succesful")

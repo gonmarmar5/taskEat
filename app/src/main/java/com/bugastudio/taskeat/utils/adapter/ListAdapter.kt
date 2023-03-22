@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bugastudio.taskeat.R
 import com.bugastudio.taskeat.databinding.EachListItemBinding
+import com.bugastudio.taskeat.fragments.ToDoDialogFragment
 import com.bugastudio.taskeat.utils.model.ListData
 import com.bugastudio.taskeat.utils.model.ToDoData
 
@@ -52,6 +53,10 @@ class ListAdapter(private val list: MutableList<ListData>) : RecyclerView.Adapte
                     isExpandable = !isExpandable
                     item.isExpandable = isExpandable // update the isExpandable property of the ListData object in the list
                     notifyItemChanged(adapterPosition)
+                }
+
+                binding.createTask.setOnClickListener{
+
                 }
             }
         }

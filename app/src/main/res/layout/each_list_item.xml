@@ -35,6 +35,16 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
+            android:id="@+id/createTask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/add_box"
+            android:layout_marginEnd="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/arrowImageView"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+            <ImageView
                 android:id="@+id/arrowImageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

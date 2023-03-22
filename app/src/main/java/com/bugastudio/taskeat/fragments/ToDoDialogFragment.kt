@@ -50,7 +50,7 @@ class ToDoDialogFragment : DialogFragment() {
 
         if (arguments != null){
 
-            toDoData = ToDoData(arguments?.getString("taskId").toString() ,arguments?.getString("task").toString())
+            toDoData = ToDoData(arguments?.getString("taskId").toString() ,arguments?.getString("task").toString(), arguments?.getString("listId").toString())
             binding.todoEt.setText(toDoData?.task)
         }
 
@@ -62,9 +62,10 @@ class ToDoDialogFragment : DialogFragment() {
         binding.todoNextBtn.setOnClickListener {
 
             val todoTask = binding.todoEt.text.toString()
+
             if (todoTask.isNotEmpty()){
                 if (toDoData == null){
-                    listener?.saveTask(todoTask , binding.todoEt)
+                    listener?.saveTask(todoTask , binding.todoEt, "-NR7YWoq19keu_BOYKDM")
                 }else{
                     toDoData!!.task = todoTask
                     listener?.updateTask(toDoData!!, binding.todoEt)
@@ -75,7 +76,7 @@ class ToDoDialogFragment : DialogFragment() {
     }
 
     interface OnDialogNextBtnClickListener{
-        fun saveTask(todoTask:String , todoEdit:TextInputEditText)
+        fun saveTask(todoTask:String , todoEdit:TextInputEditText, listId : String)
         fun updateTask(toDoData: ToDoData , todoEdit:TextInputEditText)
     }
 
