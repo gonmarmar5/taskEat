@@ -28,10 +28,13 @@ class ListAdapter(private val list: MutableList<ListData>) : RecyclerView.Adapte
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
+        val item = list[position]
+        var isExpandable = item.isExpandable
+
         with(holder) {
             with(list[position]) {
                 binding.itemTv.text = list
-                var isExpandable = this.isExpandable
+                //var isExpandable = this@with.isExpandable
                 binding.expandableLayout.visibility = if (isExpandable) View.VISIBLE else View.GONE
                 if (isExpandable) {
                     binding.arrowImageView.setImageResource(R.drawable.arriba)
@@ -45,7 +48,9 @@ class ListAdapter(private val list: MutableList<ListData>) : RecyclerView.Adapte
                 binding.childRv.adapter = adapter
 
                 binding.linearLayout.setOnClickListener {
+                    println("Estoy siendo clickeado")
                     isExpandable = !isExpandable
+                    item.isExpandable = isExpandable // update the isExpandable property of the ListData object in the list
                     notifyItemChanged(adapterPosition)
                 }
             }
