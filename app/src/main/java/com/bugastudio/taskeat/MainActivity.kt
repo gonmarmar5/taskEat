@@ -1,14 +1,21 @@
 package com.bugastudio.taskeat
 
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.bugastudio.taskeat.fragments.CategoryDialogFragment
+import com.bugastudio.taskeat.fragments.ToDoDialogFragment
+import com.bugastudio.taskeat.utils.model.CategoryData
+import com.bugastudio.taskeat.utils.model.ToDoData
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 
 class MainActivity : AppCompatActivity() {
@@ -17,6 +24,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var actionBarToggle: ActionBarDrawerToggle
     private lateinit var navView: NavigationView
+    private lateinit var database: DatabaseReference
+    private lateinit var auth: FirebaseAuth
+    private lateinit var authId: String
+    private var frag: CategoryDialogFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,9 +45,10 @@ class MainActivity : AppCompatActivity() {
         // Call syncState() on the action bar so it'll automatically change to the back button when the drawer layout is open
         actionBarToggle.syncState()
 
-
         // Call findViewById on the NavigationView
         navView = findViewById(R.id.navView)
+
+        init()
 
         // Call setNavigationItemSelectedListener on the NavigationView to detect when items are clicked
         navView.setNavigationItemSelectedListener { menuItem ->
@@ -58,7 +70,35 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        menuEvents(this)
+
     }
+    private fun init() {
+
+        auth = FirebaseAuth.getInstance()
+        authId = auth.currentUser!!.uid
+        database = Firebase.database("https://taskeat-d0db2-default-rtdb.europe-west1.firebasedatabase.app").getReference("Category").child(authId)
+
+    }
+    private fun menuEvents(
+        listener: MainActivity
+    ){
+        navView.setOnClickListener {
+
+            if (frag != null)
+                supportFragmentManager.beginTransaction().remove(frag!!).commit()
+            frag = CategoryDialogFragment()
+            frag!!.setListener(listener)
+
+            frag!!.show(
+                supportFragmentManager,
+                ToDoDialogFragment.TAG
+            )
+
+        }
+    }
+
     // override the onSupportNavigateUp() function to launch the Drawer when the hamburger icon is clicked
     override fun onSupportNavigateUp(): Boolean {
         drawerLayout.openDrawer(navView)
@@ -71,6 +111,36 @@ class MainActivity : AppCompatActivity() {
             this.drawerLayout.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
+        }
+    }
+
+    fun saveCategory(category: String, categoryEditText: TextInputEditText) {
+        database
+            .push().setValue(category)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    println("succesful")
+                    Toast.makeText(this, "Task Added Successfully", Toast.LENGTH_SHORT).show()
+                    categoryEditText.text = null
+
+                } else {
+                    println("not succesful")
+                    Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
+                }
+            }
+        frag!!.dismiss()
+    }
+
+    fun updateCategory(categoryData: CategoryData, todoEdit: TextInputEditText) {
+        val map = HashMap<String, Any>()
+        map[categoryData.categoryId] = categoryData.category
+        database.updateChildren(map).addOnCompleteListener {
+            if (it.isSuccessful) {
+                Toast.makeText(this, "Updated Successfully", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
+            }
+            frag!!.dismiss()
         }
     }
 }
