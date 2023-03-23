@@ -18,6 +18,7 @@
     <string name="my_tasks">Tienes 4 alimentos en tus listas</string>
     <string name="create_task"> Crear </string>
     <string name="create_new_task"> Crear nueva tarea </string>
+    <string name="create_new_category"> Crear nueva categoría </string>
     <string name="category"> Categoria </string>
     <string name="date"> Fecha </string>
     <string name="navigation_drawer_open"> ABRIENDOSE Y TAL </string>

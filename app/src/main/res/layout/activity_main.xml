@@ -7,16 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navView"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:menu="@menu/drawer_list"
-        android:background="@color/background"
-        app:itemTextColor="@color/white"
-        app:itemIconTint="@color/icons"
-        app:headerLayout="@layout/nav_header"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,5 +44,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:defaultNavHost="true"
         app:navGraph="@navigation/main_nav_graph" />
+
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/drawer_list"
+        android:background="@color/background"
+        app:itemTextColor="@color/white"
+        app:itemIconTint="@color/icons"
+        app:headerLayout="@layout/nav_header"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

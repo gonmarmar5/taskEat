@@ -6,10 +6,10 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.FragmentManager
 import com.bugastudio.taskeat.fragments.CategoryDialogFragment
 import com.bugastudio.taskeat.fragments.ToDoDialogFragment
 import com.bugastudio.taskeat.utils.model.CategoryData
-import com.bugastudio.taskeat.utils.model.ToDoData
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
@@ -53,16 +53,29 @@ class MainActivity : AppCompatActivity() {
         // Call setNavigationItemSelectedListener on the NavigationView to detect when items are clicked
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.myProfile -> {
-                    Toast.makeText(this, "My Profile", Toast.LENGTH_SHORT).show()
+                R.id.category -> {
+                    println("CLicakste")
+                    Toast.makeText(this, "Category clicked", Toast.LENGTH_SHORT).show()
+
+                    if (frag != null)
+                        supportFragmentManager.beginTransaction().remove(frag!!).commit() //El support me lo he inventado
+                    frag = CategoryDialogFragment()
+                    frag!!.setListener(this)
+
+                    frag!!.show(
+                        supportFragmentManager,
+                        CategoryDialogFragment.TAG
+                    )
+
+
                     true
                 }
-                R.id.people -> {
-                    Toast.makeText(this, "People", Toast.LENGTH_SHORT).show()
+                R.id.completedList -> {
+                    Toast.makeText(this, "Completed List clicked", Toast.LENGTH_SHORT).show()
                     true
                 }
                 R.id.settings -> {
-                    Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Settings clicked", Toast.LENGTH_SHORT).show()
                     true
                 }
                 else -> {
@@ -70,8 +83,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
-        menuEvents(this)
 
     }
     private fun init() {
@@ -81,23 +92,6 @@ class MainActivity : AppCompatActivity() {
         database = Firebase.database("https://taskeat-d0db2-default-rtdb.europe-west1.firebasedatabase.app").getReference("Category").child(authId)
 
     }
-    private fun menuEvents(
-        listener: MainActivity
-    ){
-        navView.setOnClickListener {
-
-            if (frag != null)
-                supportFragmentManager.beginTransaction().remove(frag!!).commit()
-            frag = CategoryDialogFragment()
-            frag!!.setListener(listener)
-
-            frag!!.show(
-                supportFragmentManager,
-                ToDoDialogFragment.TAG
-            )
-
-        }
-    }
 
     // override the onSupportNavigateUp() function to launch the Drawer when the hamburger icon is clicked
     override fun onSupportNavigateUp(): Boolean {
@@ -106,6 +100,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // override the onBackPressed() function to close the Drawer when the back button is clicked
+
     override fun onBackPressed() {
         if (this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             this.drawerLayout.closeDrawer(GravityCompat.START)

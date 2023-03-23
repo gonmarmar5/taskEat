@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.bugastudio.taskeat.MainActivity
+import com.bugastudio.taskeat.databinding.FragmentCategoryDialogBinding
 import com.bugastudio.taskeat.databinding.FragmentToDoDialogBinding
 import com.bugastudio.taskeat.utils.model.CategoryData
 import com.bugastudio.taskeat.utils.model.ToDoData
@@ -13,7 +14,7 @@ import com.google.android.material.textfield.TextInputEditText
 
 class CategoryDialogFragment : DialogFragment() {
 
-    private lateinit var binding: FragmentToDoDialogBinding
+    private lateinit var binding: FragmentCategoryDialogBinding
     private var listener : MainActivity? = null
     private var categoryData: CategoryData? = null
 
@@ -26,7 +27,7 @@ class CategoryDialogFragment : DialogFragment() {
         const val TAG = "DialogFragment"
         @JvmStatic
         fun newInstance(taskId: String, task: String) =
-            ToDoDialogFragment().apply {
+            CategoryDialogFragment().apply {
                 arguments = Bundle().apply {
                     putString("taskId", taskId)
                     putString("task", task)
@@ -42,7 +43,7 @@ class CategoryDialogFragment : DialogFragment() {
     ): View? {
         // Inflate the layout for this fragment
 
-        binding = FragmentToDoDialogBinding.inflate(inflater , container,false)
+        binding = FragmentCategoryDialogBinding.inflate(inflater , container,false)
         return binding.root
     }
 
