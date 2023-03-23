@@ -70,7 +70,7 @@ class ListDialogFragment : DialogFragment() {
                     listener?.saveList(list , binding.todoEt)
                 }else{
                     listData!!.list = list
-                    listener?.updateList(listData!!, binding.todoEt)
+                    listener?.updateList(listData!!)
                 }
 
             }
@@ -79,7 +79,7 @@ class ListDialogFragment : DialogFragment() {
 
     interface OnDialogNextBtnClickListener{
         fun saveList(list:String , todoEdit:TextInputEditText)
-        fun updateList(listData: ListData , todoEdit:TextInputEditText)
+        fun updateList(listData: ListData)
     }
 
 }
