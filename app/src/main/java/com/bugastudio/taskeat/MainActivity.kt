@@ -54,7 +54,6 @@ class MainActivity : AppCompatActivity() {
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.category -> {
-                    println("CLicakste")
                     Toast.makeText(this, "Category clicked", Toast.LENGTH_SHORT).show()
 
                     if (frag != null)
@@ -115,7 +114,7 @@ class MainActivity : AppCompatActivity() {
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     println("succesful")
-                    Toast.makeText(this, "Task Added Successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Category Added Successfully", Toast.LENGTH_SHORT).show()
                     categoryEditText.text = null
 
                 } else {
