@@ -9,7 +9,7 @@ import com.bugastudio.taskeat.MainActivity
 import com.bugastudio.taskeat.databinding.FragmentCategoryDialogBinding
 import com.bugastudio.taskeat.databinding.FragmentToDoDialogBinding
 import com.bugastudio.taskeat.utils.model.CategoryData
-import com.bugastudio.taskeat.utils.model.ToDoData
+import com.bugastudio.taskeat.utils.model.ItemData
 import com.google.android.material.textfield.TextInputEditText
 
 class CategoryDialogFragment : DialogFragment() {
@@ -78,7 +78,7 @@ class CategoryDialogFragment : DialogFragment() {
 
     interface OnDialogNextBtnClickListener{
         fun saveTask(todoTask:String , todoEdit: TextInputEditText)
-        fun updateTask(toDoData: ToDoData, todoEdit: TextInputEditText)
+        fun updateTask(toDoData: ItemData, todoEdit: TextInputEditText)
     }
 
 }
