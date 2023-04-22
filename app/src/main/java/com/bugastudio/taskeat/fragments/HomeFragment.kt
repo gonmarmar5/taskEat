@@ -130,24 +130,27 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
 
                 listItemList.clear()
                 for (taskSnapshot in snapshot.children) {
-
-                    val nestedList = taskSnapshot.child("nestedList").value as List<HashMap<String,String>>
+                    val nestedList = taskSnapshot.child("nestedList").value as? List<HashMap<String, String>>
                     val nestedListItemData = mutableListOf<ItemData>()
-                    for (element in nestedList){
-                        val item = ItemData(element["id"] as String, element["name"] as String)
-                        nestedListItemData.add(item)
+                    if (nestedList != null) {
+                        for (element in nestedList) {
+                            val item = ItemData(element["id"] as String, element["name"] as String)
+                            nestedListItemData.add(item)
+                        }
                     }
-
-                    val list = taskSnapshot.key?.let { ListData(it,
-                        taskSnapshot.child("name").value.toString(),
-                        taskSnapshot.child("expandable").value as Boolean,
-                        nestedListItemData) }
-
+                    val list = taskSnapshot.key?.let {
+                        ListData(
+                            it,
+                            taskSnapshot.child("name").value.toString(),
+                            taskSnapshot.child("expandable").value as Boolean,
+                            nestedListItemData
+                        )
+                    }
                     if (list != null) {
                         listItemList.add(list)
                     }
-
                 }
+
                 Log.d(TAG, "onDataChange: " + listItemList)
                 listAdapter.notifyDataSetChanged()
 
@@ -189,9 +192,7 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
     }
 
     override fun saveList(name: String, todoEdit: TextInputEditText) {
-        val item1 = ItemData("0", "Puerro")
-        val item2 = ItemData("1", "Pimiento")
-        val list = ListData("0", "ListaPruebas", false, listOf(item1,item2))
+        val list = ListData(name)
         database
             .push().setValue(list)
             .addOnCompleteListener {
@@ -245,8 +246,26 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
 
     override fun saveItem(name: String, todoEdit: TextInputEditText) {
 
-    }
+        val item = ItemData(name)
+        val listId = "0" //TODO
 
+        database.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(dataSnapshot: DataSnapshot){
+                for (listSnapshot in dataSnapshot.children){
+                    val list = listSnapshot.getValue(ListData::class.java)
+                    if (list?.id == listId){
+                        val nestedList = list.nestedList
+                        val updatedList = nestedList + item
+                        listSnapshot.ref.child("nestedList").setValue(updatedList)
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                //handle onCancelled event
+            }
+        })
+    }
     override fun updateItem(ItemData: ItemData, todoEdit: TextInputEditText) {
         val map = HashMap<String, Any>()
         map[ItemData.id.toString()] = ItemData.name
