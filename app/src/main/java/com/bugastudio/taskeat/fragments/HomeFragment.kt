@@ -153,7 +153,7 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
 
         auth = FirebaseAuth.getInstance()
         authId = auth.currentUser!!.uid
-        database = Firebase.database("https://taskeat-d0db2-default-rtdb.europe-west1.firebasedatabase.app").getReference("Tasks").child(authId)
+        database = Firebase.database("https://taskeat-d0db2-default-rtdb.europe-west1.firebasedatabase.app").getReference("Lists").child(authId)
 
         binding_list.allChildList.setHasFixedSize(true)
         binding_list.allChildList.layoutManager = LinearLayoutManager(context)
