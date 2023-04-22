@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.bugastudio.taskeat.MainActivity
 import com.bugastudio.taskeat.databinding.FragmentCategoryDialogBinding
-import com.bugastudio.taskeat.databinding.FragmentToDoDialogBinding
 import com.bugastudio.taskeat.utils.model.CategoryData
 import com.bugastudio.taskeat.utils.model.ItemData
 import com.google.android.material.textfield.TextInputEditText
@@ -22,7 +21,7 @@ class CategoryDialogFragment : DialogFragment() {
     fun setListener(listener: MainActivity) {
         this.listener = listener
     }
-
+    // TODO CAMBIAR ESTO (SI SE USA) A CATEGORY ID Y CATEGORY
     companion object {
         const val TAG = "DialogFragment"
         @JvmStatic

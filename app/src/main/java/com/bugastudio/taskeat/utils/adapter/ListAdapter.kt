@@ -1,6 +1,5 @@
 package com.bugastudio.taskeat.utils.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,9 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bugastudio.taskeat.R
 import com.bugastudio.taskeat.databinding.EachListItemBinding
-import com.bugastudio.taskeat.fragments.ToDoDialogFragment
 import com.bugastudio.taskeat.utils.model.ListData
-import com.bugastudio.taskeat.utils.model.ToDoData
 
 class ListAdapter(private val list: MutableList<ListData>) : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
 
@@ -34,8 +31,14 @@ class ListAdapter(private val list: MutableList<ListData>) : RecyclerView.Adapte
 
         with(holder) {
             with(list[position]) {
-                binding.itemTv.text = list
-                //var isExpandable = this@with.isExpandable
+                binding.eachList.text = name
+
+                val adapter = ItemAdapter(nestedList.toMutableList())
+                binding.allChildList.layoutManager = LinearLayoutManager(holder.itemView.context)
+                binding.allChildList.setHasFixedSize(true)
+                binding.allChildList.adapter = adapter
+
+                // Check if the the list is expanded or not
                 binding.expandableLayout.visibility = if (isExpandable) View.VISIBLE else View.GONE
                 if (isExpandable) {
                     binding.arrowImageView.setImageResource(R.drawable.arriba)
@@ -43,13 +46,7 @@ class ListAdapter(private val list: MutableList<ListData>) : RecyclerView.Adapte
                     binding.arrowImageView.setImageResource(R.drawable.abajo)
                 }
 
-                val adapter = TaskAdapter(nestedList.toMutableList())
-                binding.childRv.layoutManager = LinearLayoutManager(holder.itemView.context)
-                binding.childRv.setHasFixedSize(true)
-                binding.childRv.adapter = adapter
-
                 binding.linearLayout.setOnClickListener {
-                    println("Estoy siendo clickeado")
                     isExpandable = !isExpandable
                     item.isExpandable = isExpandable // update the isExpandable property of the ListData object in the list
                     notifyItemChanged(adapterPosition)

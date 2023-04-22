@@ -1,6 +1,3 @@
 package com.bugastudio.taskeat.utils.model
 
-data class ListData(var listId:String, var list:String, var nestedList: List<ToDoData> = emptyList(), var isExpandable: Boolean = false){
-
-
-}
+data class ListData(var id: String, var name:String, var isExpandable: Boolean = false, var nestedList: List<ItemData> = emptyList())
