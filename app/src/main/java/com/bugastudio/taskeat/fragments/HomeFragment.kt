@@ -1,5 +1,6 @@
 package com.bugastudio.taskeat.fragments
 
+import android.content.ClipData.Item
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -189,13 +190,31 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
                     Toast.makeText(context, it.exception.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
-        frag!!.dismiss()
+
+        database.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (listSnapshot in dataSnapshot.children) {
+                    println("AAAAAAA")
+                    val list = listSnapshot.getValue(ListData::class.java)
+                    if (list?.name == "Lista") {
+                        val nestedList = list.nestedList
+                        println(nestedList)
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle error
+            }
+        })
+
+        //frag!!.dismiss()
 
     }
 
     override fun updateList(listData: ListData) {
         val map = HashMap<String, Any>()
-        map[listData.id.toString()] = listData
+        map[listData.id] = listData
         database.updateChildren(map).addOnCompleteListener {
             if (it.isSuccessful) {
                 Toast.makeText(context, "Updated Successfully", Toast.LENGTH_SHORT).show()
@@ -228,11 +247,11 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
         )
     }
 
-    override fun saveTask(todoTask: String, todoEdit: TextInputEditText) {
-        println("ESTO GUARDANDO LA TAREA")
+    override fun saveItem(name: String, todoEdit: TextInputEditText) {
+
     }
 
-    override fun updateTask(ItemData: ItemData, todoEdit: TextInputEditText) {
+    override fun updateItem(ItemData: ItemData, todoEdit: TextInputEditText) {
         val map = HashMap<String, Any>()
         map[ItemData.id.toString()] = ItemData.name
         database.updateChildren(map).addOnCompleteListener {

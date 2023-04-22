@@ -65,10 +65,10 @@ class ItemDialogFragment : DialogFragment() {
 
             if (nameItem.isNotEmpty()){
                 if (itemData == null){
-                    listener?.saveTask(nameItem , binding.todoEt)
+                    listener?.saveItem(nameItem , binding.todoEt)
                 }else{
                     itemData!!.name = nameItem
-                    listener?.updateTask(itemData!!, binding.todoEt)
+                    listener?.updateItem(itemData!!, binding.todoEt)
                 }
 
             }
@@ -76,8 +76,8 @@ class ItemDialogFragment : DialogFragment() {
     }
 
     interface OnDialogNextBtnClickListener{
-        fun saveTask(nameItem:String , todoEdit:TextInputEditText)
-        fun updateTask(itemData: ItemData , todoEdit:TextInputEditText)
+        fun saveItem(nameItem:String , todoEdit:TextInputEditText)
+        fun updateItem(itemData: ItemData , todoEdit:TextInputEditText)
     }
 
 }
