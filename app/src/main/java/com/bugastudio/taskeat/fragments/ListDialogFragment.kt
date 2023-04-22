@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.bugastudio.taskeat.databinding.FragmentItemDialogBinding
+import com.bugastudio.taskeat.databinding.FragmentListDialogBinding
 import com.bugastudio.taskeat.utils.model.ListData
 import com.bugastudio.taskeat.utils.model.ItemData
 import com.google.android.material.textfield.TextInputEditText
@@ -13,7 +13,7 @@ import com.google.android.material.textfield.TextInputEditText
 
 class ListDialogFragment : DialogFragment() {
 
-    private lateinit var binding:FragmentItemDialogBinding  // TODO CREAR XML PROPIO, PERO PARA IR PROBANDO SE QUEDA EL DE ITEM
+    private lateinit var binding:FragmentListDialogBinding
     private var listener : OnDialogNextBtnClickListener? = null
     private var listData: ListData? = null
 
@@ -40,7 +40,7 @@ class ListDialogFragment : DialogFragment() {
     ): View? {
         // Inflate the layout for this fragment
 
-        binding = FragmentItemDialogBinding.inflate(inflater , container,false)
+        binding = FragmentListDialogBinding.inflate(inflater , container,false)
         return binding.root
     }
 
