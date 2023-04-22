@@ -130,7 +130,18 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
 
                 listItemList.clear()
                 for (taskSnapshot in snapshot.children) {
-                    val list = taskSnapshot.key?.let { ListData(it, taskSnapshot.value.toString(),false, listOf(), ) }
+
+                    val nestedList = taskSnapshot.child("nestedList").value as List<HashMap<String,String>>
+                    val nestedListItemData = mutableListOf<ItemData>()
+                    for (element in nestedList){
+                        val item = ItemData(element["id"] as String, element["name"] as String)
+                        nestedListItemData.add(item)
+                    }
+
+                    val list = taskSnapshot.key?.let { ListData(it,
+                        taskSnapshot.child("name").value.toString(),
+                        taskSnapshot.child("expandable").value as Boolean,
+                        nestedListItemData) }
 
                     if (list != null) {
                         listItemList.add(list)
@@ -178,9 +189,11 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
     }
 
     override fun saveList(name: String, todoEdit: TextInputEditText) {
-
+        val item1 = ItemData("0", "Puerro")
+        val item2 = ItemData("1", "Pimiento")
+        val list = ListData("0", "ListaPruebas", false, listOf(item1,item2))
         database
-            .push().setValue(name)
+            .push().setValue(list)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     Toast.makeText(context, "List Added Successfully", Toast.LENGTH_SHORT).show()
@@ -190,23 +203,6 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
                     Toast.makeText(context, it.exception.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
-
-        database.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (listSnapshot in dataSnapshot.children) {
-                    println("AAAAAAA")
-                    val list = listSnapshot.getValue(ListData::class.java)
-                    if (list?.name == "Lista") {
-                        val nestedList = list.nestedList
-                        println(nestedList)
-                    }
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Handle error
-            }
-        })
 
         //frag!!.dismiss()
 
