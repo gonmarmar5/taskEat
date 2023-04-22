@@ -82,7 +82,7 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
             )
         }
         //TODO
-        var ref = database.ref;
+        var ref = database.ref
 
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -104,7 +104,7 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
                 ItemList.clear()
                 for (taskSnapshot in snapshot.children) {
                     val todoTask =
-                        taskSnapshot.key?.let { ItemData(it.toInt(), taskSnapshot.value.toString())}
+                        taskSnapshot.key?.let { ItemData(it, taskSnapshot.value.toString())}
                     if (todoTask != null) {
                         ItemList.add(todoTask)
                     }
@@ -129,7 +129,7 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
 
                 listItemList.clear()
                 for (taskSnapshot in snapshot.children) {
-                    val list = taskSnapshot.key?.let { ListData(it.toInt(), taskSnapshot.value.toString(),false, listOf(), ) }
+                    val list = taskSnapshot.key?.let { ListData(it, taskSnapshot.value.toString(),false, listOf(), ) }
 
                     if (list != null) {
                         listItemList.add(list)
@@ -229,7 +229,7 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
     }
 
     override fun saveTask(todoTask: String, todoEdit: TextInputEditText) {
-        // TODO
+        println("ESTO GUARDANDO LA TAREA")
     }
 
     override fun updateTask(ItemData: ItemData, todoEdit: TextInputEditText) {

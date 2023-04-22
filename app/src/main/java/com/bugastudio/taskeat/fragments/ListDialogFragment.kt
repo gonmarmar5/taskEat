@@ -25,10 +25,10 @@ class ListDialogFragment : DialogFragment() {
     companion object {
         const val TAG = "DialogFragment"
         @JvmStatic
-        fun newInstance(id: Int, name: String) =
+        fun newInstance(id: String, name: String) =
             ListDialogFragment().apply {
                 arguments = Bundle().apply {
-                    putInt("id", id)
+                    putString("id", id)
                     putString("name", name)
                 }
             }
@@ -49,7 +49,7 @@ class ListDialogFragment : DialogFragment() {
 
         if (arguments != null){
 
-            listData = ListData(arguments?.getInt("id") ?: 0,
+            listData = ListData(arguments?.getString("id").toString(),
                 arguments?.getString("name").toString(),
                 false, // setting isExpandable to false by default
                 emptyList<ItemData>()) // setting nestedList to an empty list by default )

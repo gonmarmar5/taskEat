@@ -24,10 +24,10 @@ class ItemDialogFragment : DialogFragment() {
     companion object {
         const val TAG = "DialogFragment"
         @JvmStatic
-        fun newInstance(id: Int, name: String) =
+        fun newInstance(id: String, name: String) =
             ItemDialogFragment().apply {
                 arguments = Bundle().apply {
-                    putInt("id", id)
+                    putString("id", id)
                     putString("name", name)
                 }
             }
@@ -49,8 +49,7 @@ class ItemDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (arguments != null){
-            // TODO Change id so it's not 0 when is not set
-            itemData = ItemData(arguments?.getInt("id") ?: 0 ,
+            itemData = ItemData(arguments?.getString("id").toString() ,
                 arguments?.getString("name").toString())
             binding.todoEt.setText(itemData?.name)
         }
