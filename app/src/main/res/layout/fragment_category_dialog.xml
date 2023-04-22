@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="400dp"
     android:layout_height="wrap_content"
-    tools:context=".fragments.ToDoDialogFragment">
+    tools:context=".fragments.ItemDialogFragment">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout

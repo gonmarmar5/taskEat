@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bugastudio.taskeat.databinding.EachTodoItemBinding
-import com.bugastudio.taskeat.utils.model.ToDoData
+import com.bugastudio.taskeat.utils.model.ItemData
 
-class TaskAdapter(private val list: MutableList<ToDoData>) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
+class ItemAdapter(private val list: MutableList<ItemData>) : RecyclerView.Adapter<ItemAdapter.TaskViewHolder>() {
 
-    private  val TAG = "TaskAdapter"
+    private  val TAG = "ItemAdapter"
     private var listener:TaskAdapterInterface? = null
     fun setListener(listener:TaskAdapterInterface){
         this.listener = listener
@@ -25,9 +25,9 @@ class TaskAdapter(private val list: MutableList<ToDoData>) : RecyclerView.Adapte
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         with(holder) {
             with(list[position]) {
-                binding.todoTask.text = this.task
+                binding.eachItem.text = this.name
 
-                Log.d(TAG, "onBindViewHolder: "+this)
+                Log.d(TAG, "onBindViewHolder: "+ this)
                 binding.editTask.setOnClickListener {
                     listener?.onEditItemClicked(this , position)
                 }
@@ -44,8 +44,8 @@ class TaskAdapter(private val list: MutableList<ToDoData>) : RecyclerView.Adapte
     }
 
     interface TaskAdapterInterface{
-        fun onDeleteItemClicked(toDoData: ToDoData , position : Int)
-        fun onEditItemClicked(toDoData: ToDoData , position: Int)
+        fun onDeleteItemClicked(itemData: ItemData , position : Int)
+        fun onEditItemClicked(itemData: ItemData , position: Int)
     }
 
 }

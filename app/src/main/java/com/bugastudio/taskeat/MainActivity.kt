@@ -6,9 +6,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.FragmentManager
 import com.bugastudio.taskeat.fragments.CategoryDialogFragment
-import com.bugastudio.taskeat.fragments.ToDoDialogFragment
 import com.bugastudio.taskeat.utils.model.CategoryData
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.textfield.TextInputEditText

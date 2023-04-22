@@ -5,16 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.bugastudio.taskeat.databinding.FragmentToDoDialogBinding
-import com.bugastudio.taskeat.utils.model.ToDoData
+import com.bugastudio.taskeat.databinding.FragmentItemDialogBinding
+import com.bugastudio.taskeat.utils.model.ItemData
 import com.google.android.material.textfield.TextInputEditText
 
 
-class ToDoDialogFragment : DialogFragment() {
+class ItemDialogFragment : DialogFragment() {
 
-    private lateinit var binding:FragmentToDoDialogBinding
+    private lateinit var binding:FragmentItemDialogBinding
     private var listener : OnDialogNextBtnClickListener? = null
-    private var toDoData: ToDoData? = null
+    private var itemData: ItemData? = null
 
 
     fun setListener(listener: OnDialogNextBtnClickListener) {
@@ -24,11 +24,11 @@ class ToDoDialogFragment : DialogFragment() {
     companion object {
         const val TAG = "DialogFragment"
         @JvmStatic
-        fun newInstance(taskId: String, task: String) =
-            ToDoDialogFragment().apply {
+        fun newInstance(id: Int, name: String) =
+            ItemDialogFragment().apply {
                 arguments = Bundle().apply {
-                    putString("taskId", taskId)
-                    putString("task", task)
+                    putInt("id", id)
+                    putString("name", name)
                 }
             }
     }
@@ -41,7 +41,7 @@ class ToDoDialogFragment : DialogFragment() {
     ): View? {
         // Inflate the layout for this fragment
 
-        binding = FragmentToDoDialogBinding.inflate(inflater , container,false)
+        binding = FragmentItemDialogBinding.inflate(inflater , container,false)
         return binding.root
     }
 
@@ -49,9 +49,10 @@ class ToDoDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (arguments != null){
-
-            toDoData = ToDoData(arguments?.getString("taskId").toString() ,arguments?.getString("task").toString(), arguments?.getString("listId").toString())
-            binding.todoEt.setText(toDoData?.task)
+            // TODO Change id so it's not 0 when is not set
+            itemData = ItemData(arguments?.getInt("id") ?: 0 ,
+                arguments?.getString("name").toString())
+            binding.todoEt.setText(itemData?.name)
         }
 
 
@@ -61,14 +62,14 @@ class ToDoDialogFragment : DialogFragment() {
 
         binding.todoNextBtn.setOnClickListener {
 
-            val todoTask = binding.todoEt.text.toString()
+            val nameItem = binding.todoEt.text.toString()
 
-            if (todoTask.isNotEmpty()){
-                if (toDoData == null){
-                    listener?.saveTask(todoTask , binding.todoEt, "-NR7YWoq19keu_BOYKDM")
+            if (nameItem.isNotEmpty()){
+                if (itemData == null){
+                    listener?.saveTask(nameItem , binding.todoEt)
                 }else{
-                    toDoData!!.task = todoTask
-                    listener?.updateTask(toDoData!!, binding.todoEt)
+                    itemData!!.name = nameItem
+                    listener?.updateTask(itemData!!, binding.todoEt)
                 }
 
             }
@@ -76,8 +77,8 @@ class ToDoDialogFragment : DialogFragment() {
     }
 
     interface OnDialogNextBtnClickListener{
-        fun saveTask(todoTask:String , todoEdit:TextInputEditText, listId : String)
-        fun updateTask(toDoData: ToDoData , todoEdit:TextInputEditText)
+        fun saveTask(nameItem:String , todoEdit:TextInputEditText)
+        fun updateTask(itemData: ItemData , todoEdit:TextInputEditText)
     }
 
 }

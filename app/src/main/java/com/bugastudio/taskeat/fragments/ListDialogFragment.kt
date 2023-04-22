@@ -5,15 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.bugastudio.taskeat.databinding.FragmentToDoDialogBinding
+import com.bugastudio.taskeat.databinding.FragmentItemDialogBinding
 import com.bugastudio.taskeat.utils.model.ListData
-import com.bugastudio.taskeat.utils.model.ToDoData
+import com.bugastudio.taskeat.utils.model.ItemData
 import com.google.android.material.textfield.TextInputEditText
 
 
 class ListDialogFragment : DialogFragment() {
 
-    private lateinit var binding:FragmentToDoDialogBinding  // TODO CAMBIAR A OTRO XML
+    private lateinit var binding:FragmentItemDialogBinding  // TODO CREAR XML PROPIO, PERO PARA IR PROBANDO SE QUEDA EL DE ITEM
     private var listener : OnDialogNextBtnClickListener? = null
     private var listData: ListData? = null
 
@@ -25,16 +25,14 @@ class ListDialogFragment : DialogFragment() {
     companion object {
         const val TAG = "DialogFragment"
         @JvmStatic
-        fun newInstance(listId: String, list: String) =
+        fun newInstance(id: Int, name: String) =
             ListDialogFragment().apply {
                 arguments = Bundle().apply {
-                    putString("listId", listId)
-                    putString("list", list)
+                    putInt("id", id)
+                    putString("name", name)
                 }
             }
     }
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +40,7 @@ class ListDialogFragment : DialogFragment() {
     ): View? {
         // Inflate the layout for this fragment
 
-        binding = FragmentToDoDialogBinding.inflate(inflater , container,false)
+        binding = FragmentItemDialogBinding.inflate(inflater , container,false)
         return binding.root
     }
 
@@ -51,10 +49,12 @@ class ListDialogFragment : DialogFragment() {
 
         if (arguments != null){
 
-            listData = ListData(arguments?.getString("listId").toString(), arguments?.getString("list").toString())
+            listData = ListData(arguments?.getInt("id") ?: 0,
+                arguments?.getString("name").toString(),
+                false, // setting isExpandable to false by default
+                emptyList<ItemData>()) // setting nestedList to an empty list by default )
 
-
-            binding.todoEt.setText(listData?.list)
+            binding.todoEt.setText(listData?.name)
         }
 
 
@@ -64,12 +64,12 @@ class ListDialogFragment : DialogFragment() {
 
         binding.todoNextBtn.setOnClickListener {
 
-            val list = binding.todoEt.text.toString()
-            if (list.isNotEmpty()){
+            val name = binding.todoEt.text.toString()
+            if (name.isNotEmpty()){
                 if (listData == null){
-                    listener?.saveList(list , binding.todoEt)
+                    listener?.saveList(name , binding.todoEt)
                 }else{
-                    listData!!.list = list
+                    listData!!.name = name
                     listener?.updateList(listData!!)
                 }
 
@@ -78,7 +78,7 @@ class ListDialogFragment : DialogFragment() {
     }
 
     interface OnDialogNextBtnClickListener{
-        fun saveList(list:String , todoEdit:TextInputEditText)
+        fun saveList(name:String , todoEdit:TextInputEditText)
         fun updateList(listData: ListData)
     }
 
