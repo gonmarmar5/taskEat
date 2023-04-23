@@ -57,7 +57,6 @@ class ListDialogFragment : DialogFragment() {
             binding.todoEt.setText(listData?.name)
         }
 
-
         binding.todoClose.setOnClickListener {
             dismiss()
         }
@@ -65,6 +64,7 @@ class ListDialogFragment : DialogFragment() {
         binding.todoNextBtn.setOnClickListener {
 
             val name = binding.todoEt.text.toString()
+
             if (name.isNotEmpty()){
                 if (listData == null){
                     listener?.saveList(name , binding.todoEt)

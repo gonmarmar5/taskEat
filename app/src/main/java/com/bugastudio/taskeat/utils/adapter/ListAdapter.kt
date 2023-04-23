@@ -7,13 +7,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bugastudio.taskeat.R
 import com.bugastudio.taskeat.databinding.EachListItemBinding
-import com.bugastudio.taskeat.utils.model.ItemData
+import com.bugastudio.taskeat.fragments.ItemDialogFragment
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.bugastudio.taskeat.utils.model.ListData
 
-class ListAdapter(private val list: MutableList<ListData>) : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
-
+class ListAdapter(private val list: MutableList<ListData>, private val addTaskClickListener: View.OnClickListener) : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
     private  val TAG = "ListAdapter"
     private var listener:ListAdapterInterface? = null
+    private var frag: ItemDialogFragment? = null
+
 
     fun setListener(listener:ListAdapterInterface){
         this.listener = listener
@@ -23,6 +26,7 @@ class ListAdapter(private val list: MutableList<ListData>) : RecyclerView.Adapte
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val binding =
             EachListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
         return ListViewHolder(binding)
     }
 
@@ -53,9 +57,7 @@ class ListAdapter(private val list: MutableList<ListData>) : RecyclerView.Adapte
                     notifyItemChanged(adapterPosition)
                 }
 
-                binding.createTask.setOnClickListener{
-
-                }
+                binding.addTaskButton.setOnClickListener(addTaskClickListener)
             }
         }
     }

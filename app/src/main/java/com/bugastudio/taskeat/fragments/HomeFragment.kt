@@ -1,6 +1,5 @@
 package com.bugastudio.taskeat.fragments
 
-import android.content.ClipData.Item
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -60,17 +59,6 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
 
         //get data from firebase
         getTaskFromFirebase()
-
-        binding.addTaskBtn.setOnClickListener {
-            if (frag != null)
-                childFragmentManager.beginTransaction().remove(frag!!).commit()
-            frag = ItemDialogFragment()
-            frag!!.setListener(this)
-            frag!!.show(
-                childFragmentManager,
-                ItemDialogFragment.TAG
-            )
-        }
 
         binding.addListBtn.setOnClickListener {
             if (list_frag != null)
@@ -185,8 +173,15 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
         //var todo = ToDoData("1","Pimientos 1 unidad", "ListaID1")
         //var list = ListData("1", "Lista de la compra", listOf(todo), false)
         //listItemList.add(list)
-        listAdapter = ListAdapter(listItemList)
-        listAdapter.setListener(this)
+        listAdapter = ListAdapter(listItemList, View.OnClickListener {
+            if (frag != null) {
+                childFragmentManager.beginTransaction().remove(frag!!).commit()
+            }
+            frag = ItemDialogFragment()
+            frag!!.setListener(this)
+            frag!!.show(childFragmentManager, ItemDialogFragment.TAG)
+        })
+        //listAdapter.setListener(this)
         binding.mainRecyclerView.adapter = listAdapter
 
     }
@@ -244,10 +239,10 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
         )
     }
 
-    override fun saveItem(name: String, todoEdit: TextInputEditText) {
+    override fun saveItem(name: String, listId: String, todoEdit: TextInputEditText) {
 
         val item = ItemData(name)
-        val listId = "0" //TODO
+        val listId = listId
 
         database.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(dataSnapshot: DataSnapshot){
