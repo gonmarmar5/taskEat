@@ -17,14 +17,17 @@ class ItemAdapter(private val list: MutableList<ItemData>) : RecyclerView.Adapte
     class TaskViewHolder(val binding: EachTodoItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
+
         val binding =
             EachTodoItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return TaskViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
+
         with(holder) {
             with(list[position]) {
+
                 binding.eachItem.text = this.name
 
                 Log.d(TAG, "onBindViewHolder: "+ this)

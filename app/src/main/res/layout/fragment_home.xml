@@ -64,32 +64,10 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/top_layout"
+        android:scrollbars="vertical"
         />
 
-    <Button
-        android:id="@+id/addTaskBtn"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:drawableLeft="@drawable/add_box"
-        android:fontFamily="@font/roboto_regular"
-        android:gravity="center_vertical|left"
-        android:paddingLeft="90dp"
-        android:background="@drawable/roundedbutton"
-        android:text="@string/create_new_task"
-        android:textAllCaps="false"
-        android:textSize="18sp"
-        android:layout_marginBottom="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHeight_percent="0.06"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.89"
-        app:layout_constraintWidth_percent="0.9">
-
-    </Button>
-
+    
     <!-- Crear nueva lista -->
     <Button
         android:id="@+id/addListBtn"

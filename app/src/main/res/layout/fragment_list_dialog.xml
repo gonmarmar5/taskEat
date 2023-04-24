@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="400dp"
+    android:layout_height="wrap_content"
+    tools:context=".fragments.ItemDialogFragment">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_task"
+        app:strokeColor="@color/electric_purple"
+        app:strokeWidth="1dp">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center_horizontal"
+            android:text="@string/create_new_list"
+            android:textColor="@color/white"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="12dp"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="@+id/cardView1"
+            app:layout_constraintTop_toTopOf="parent"></TextView>
+
+        <ImageView
+            android:id="@+id/todoClose"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/ic_baseline_close_24"
+            app:layout_constraintEnd_toEndOf="@+id/cardView1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardView1"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.95"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            app:cardCornerRadius="8dp"
+            android:background="@android:color/transparent"
+            app:cardElevation="8dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/todoClose">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/todoTI"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                app:boxBackgroundColor = "@color/background_task"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/todoEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="@string/type_title"
+                    android:textColorHint="@color/white"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/white"
+                    android:paddingStart="12dp"
+                    android:paddingTop="15dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"
+                android:layout_marginTop="50dp"
+                android:background="@color/white"
+                />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <LinearLayout
+            android:id="@+id/top_layout"
+            android:layout_width="114dp"
+            android:layout_height="69dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="20dp"
+            android:background="@color/background_task"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@+id/cardView1"
+            app:layout_constraintTop_toBottomOf="@+id/cardView1">
+
+            <Button
+                android:id="@+id/todoNextBtn"
+                android:layout_width="90dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="12dp"
+                android:src="@color/electric_purple"
+                android:text="@string/create_task"
+                android:textSize="12dp"></Button>
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
