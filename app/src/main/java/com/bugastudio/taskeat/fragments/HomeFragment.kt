@@ -191,9 +191,6 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
                     Toast.makeText(context, it.exception.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
-
-        //frag!!.dismiss()
-
     }
 
     override fun updateList(listData: ListData) {

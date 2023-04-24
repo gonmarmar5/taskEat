@@ -73,7 +73,7 @@ class ListDialogFragment : DialogFragment() {
                     listData!!.name = name
                     listener?.updateList(listData!!)
                 }
-
+                dismiss()
             }
         }
     }
