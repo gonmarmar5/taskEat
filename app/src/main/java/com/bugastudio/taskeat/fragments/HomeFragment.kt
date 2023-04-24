@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bugastudio.taskeat.R
 import com.bugastudio.taskeat.databinding.EachListItemBinding
 import com.bugastudio.taskeat.databinding.FragmentHomeBinding
 import com.bugastudio.taskeat.utils.adapter.ListAdapter
@@ -170,18 +171,18 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
         binding.mainRecyclerView.layoutManager = LinearLayoutManager(context)
 
         listItemList = mutableListOf()
-        //var todo = ToDoData("1","Pimientos 1 unidad", "ListaID1")
-        //var list = ListData("1", "Lista de la compra", listOf(todo), false)
-        //listItemList.add(list)
+
         listAdapter = ListAdapter(listItemList, View.OnClickListener {
+
             if (frag != null) {
                 childFragmentManager.beginTransaction().remove(frag!!).commit()
             }
+
             frag = ItemDialogFragment()
             frag!!.setListener(this)
             frag!!.show(childFragmentManager, ItemDialogFragment.TAG)
         })
-        //listAdapter.setListener(this)
+
         binding.mainRecyclerView.adapter = listAdapter
 
     }

@@ -47,7 +47,6 @@ class ItemDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        println("CCCCCCCCCCCC")
         if (arguments != null){
             itemData = ItemData(arguments?.getString("id").toString() ,
                 arguments?.getString("name").toString())
@@ -62,7 +61,7 @@ class ItemDialogFragment : DialogFragment() {
         binding.todoNextBtn.setOnClickListener {
 
             val nameItem = binding.todoEt.text.toString()
-            // val listId = binding.
+            //val listId = binding.
 
             if (nameItem.isNotEmpty()){
                 if (itemData == null){
