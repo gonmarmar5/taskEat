@@ -10,7 +10,7 @@ import com.bugastudio.taskeat.utils.model.ItemData
 import com.google.android.material.textfield.TextInputEditText
 
 
-class ItemDialogFragment : DialogFragment() {
+class ItemDialogFragment(private val listName: String) : DialogFragment() {
 
     private lateinit var binding:FragmentItemDialogBinding
     private var listener : OnDialogNextBtnClickListener? = null
@@ -24,8 +24,8 @@ class ItemDialogFragment : DialogFragment() {
     companion object {
         const val TAG = "DialogFragment"
         @JvmStatic
-        fun newInstance(id: String, name: String) =
-            ItemDialogFragment().apply {
+        fun newInstance(id: String, name: String, listName: String) =
+            ItemDialogFragment(listName).apply {
                 arguments = Bundle().apply {
                     putString("id", id)
                     putString("name", name)
@@ -61,22 +61,22 @@ class ItemDialogFragment : DialogFragment() {
         binding.todoNextBtn.setOnClickListener {
 
             val nameItem = binding.todoEt.text.toString()
-            //val listId = binding.
 
             if (nameItem.isNotEmpty()){
                 if (itemData == null){
-                    listener?.saveItem(nameItem,"0", binding.todoEt)
+                    listener?.saveItem(nameItem,listName, binding.todoEt)
                 }else{
                     itemData!!.name = nameItem
                     listener?.updateItem(itemData!!, binding.todoEt)
                 }
 
             }
+            dismiss()
         }
     }
 
     interface OnDialogNextBtnClickListener{
-        fun saveItem(nameItem:String , listId : String, todoEdit:TextInputEditText)
+        fun saveItem(nameItem:String , listName : String, todoEdit:TextInputEditText)
         fun updateItem(itemData: ItemData , todoEdit:TextInputEditText)
     }
 

@@ -14,7 +14,6 @@ import com.bugastudio.taskeat.databinding.EachListItemBinding
 class ListDialogFragment : DialogFragment() {
 
     private lateinit var binding:FragmentListDialogBinding
-    private lateinit var eachListBinding:EachListItemBinding
     private var listener : OnDialogNextBtnClickListener? = null
     private var listData: ListData? = null
 
@@ -69,7 +68,7 @@ class ListDialogFragment : DialogFragment() {
             if (name.isNotEmpty()){
                 if (listData == null){
                     listener?.saveList(name , binding.todoEt)
-                    eachListBinding.addTaskButton.tag = name
+
                 }else{
                     listData!!.name = name
                     listener?.updateList(listData!!)

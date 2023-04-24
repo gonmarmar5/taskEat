@@ -172,16 +172,7 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
 
         listItemList = mutableListOf()
 
-        listAdapter = ListAdapter(listItemList, View.OnClickListener {
-
-            if (frag != null) {
-                childFragmentManager.beginTransaction().remove(frag!!).commit()
-            }
-
-            frag = ItemDialogFragment()
-            frag!!.setListener(this)
-            frag!!.show(childFragmentManager, ItemDialogFragment.TAG)
-        })
+        listAdapter = ListAdapter(listItemList, frag, childFragmentManager, this)
 
         binding.mainRecyclerView.adapter = listAdapter
 
@@ -240,16 +231,15 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
         )
     }
 
-    override fun saveItem(name: String, listId: String, todoEdit: TextInputEditText) {
+    override fun saveItem(name: String, listName: String, todoEdit: TextInputEditText) {
 
         val item = ItemData(name)
-        val listId = listId
 
         database.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(dataSnapshot: DataSnapshot){
                 for (listSnapshot in dataSnapshot.children){
                     val list = listSnapshot.getValue(ListData::class.java)
-                    if (list?.id == listId){
+                    if (list?.name == listName){
                         val nestedList = list.nestedList
                         val updatedList = nestedList + item
                         listSnapshot.ref.child("nestedList").setValue(updatedList)
@@ -289,7 +279,8 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
         if (frag != null)
             childFragmentManager.beginTransaction().remove(frag!!).commit()
 
-        frag = ItemDialogFragment.newInstance(toDoData.id, toDoData.name)
+        // TODO
+        frag = ItemDialogFragment.newInstance(toDoData.id, toDoData.name, "listName")
         frag!!.setListener(this)
         frag!!.show(
             childFragmentManager,

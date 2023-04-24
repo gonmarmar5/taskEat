@@ -3,19 +3,19 @@ package com.bugastudio.taskeat.utils.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bugastudio.taskeat.R
 import com.bugastudio.taskeat.databinding.EachListItemBinding
+import com.bugastudio.taskeat.fragments.HomeFragment
 import com.bugastudio.taskeat.fragments.ItemDialogFragment
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
+
 import com.bugastudio.taskeat.utils.model.ListData
 
-class ListAdapter(private val list: MutableList<ListData>, private val addTaskClickListener: View.OnClickListener) : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
+class ListAdapter(private val list: MutableList<ListData>, private var frag:  ItemDialogFragment?, private val childFragmentManager: FragmentManager, private val homeFragment: HomeFragment) : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
     private  val TAG = "ListAdapter"
     private var listener:ListAdapterInterface? = null
-    private var frag: ItemDialogFragment? = null
 
 
     fun setListener(listener:ListAdapterInterface){
@@ -57,7 +57,16 @@ class ListAdapter(private val list: MutableList<ListData>, private val addTaskCl
                     notifyItemChanged(adapterPosition)
                 }
 
-                binding.addTaskButton.setOnClickListener(addTaskClickListener)
+                binding.addTaskButton.setOnClickListener{
+
+                    if (frag != null) {
+                        childFragmentManager.beginTransaction().remove(frag!!).commit()
+                    }
+                    frag = ItemDialogFragment(name)
+                    binding.addTaskButton.tag = name
+                    frag!!.setListener(homeFragment)
+                    frag!!.show(childFragmentManager, ItemDialogFragment.TAG)
+                }
             }
         }
     }
