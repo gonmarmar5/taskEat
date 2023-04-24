@@ -163,8 +163,9 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
         binding_list.allChildList.layoutManager = LinearLayoutManager(context)
 
         ItemList = mutableListOf()
-        taskAdapter = ItemAdapter(ItemList)
+        taskAdapter = ItemAdapter(ItemList, this)
         taskAdapter.setListener(this)
+        Log.d(TAG, this.toString())
 
         binding_list.allChildList.adapter = taskAdapter
 
@@ -208,7 +209,7 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
     }
 
     override fun onDeleteListClicked(listData: ListData, position: Int) {
-        database.child(listData.id.toString()).removeValue().addOnCompleteListener {
+        database.child(listData.id).removeValue().addOnCompleteListener {
             if (it.isSuccessful) {
                 Toast.makeText(context, "Deleted Successfully", Toast.LENGTH_SHORT).show()
             } else {
@@ -241,6 +242,7 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
                         val nestedList = list.nestedList
                         val updatedList = nestedList + item
                         listSnapshot.ref.child("nestedList").setValue(updatedList)
+                        Toast.makeText(context, "Deleted Successfully", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -264,8 +266,23 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
     }
 
     override fun onDeleteItemClicked(ItemData: ItemData, position: Int) {
-        print("AAAAAAAAAAAAAAAAAAAAAAAA")
 
+        database.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(dataSnapshot: DataSnapshot){
+                for (listSnapshot in dataSnapshot.children){
+                    val list = listSnapshot.getValue(ListData::class.java)
+                    if (list?.nestedList!!.contains(ItemData)){
+                        val nestedList = list.nestedList
+                        val updatedList = nestedList - ItemData
+                        listSnapshot.ref.child("nestedList").setValue(updatedList)
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                //handle onCancelled event
+            }
+        })
     }
 
     override fun onEditItemClicked(toDoData: ItemData, position: Int) {

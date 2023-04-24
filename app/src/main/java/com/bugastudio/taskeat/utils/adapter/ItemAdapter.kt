@@ -5,9 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bugastudio.taskeat.databinding.EachTodoItemBinding
+import com.bugastudio.taskeat.fragments.HomeFragment
 import com.bugastudio.taskeat.utils.model.ItemData
 
-class ItemAdapter(private val list: MutableList<ItemData>) : RecyclerView.Adapter<ItemAdapter.TaskViewHolder>() {
+class ItemAdapter(private val list: MutableList<ItemData>, private val homeFragment: HomeFragment) : RecyclerView.Adapter<ItemAdapter.TaskViewHolder>() {
 
     private  val TAG = "ItemAdapter"
     private var listener:ItemAdapterInterface? = null
@@ -24,18 +25,19 @@ class ItemAdapter(private val list: MutableList<ItemData>) : RecyclerView.Adapte
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        
+
         with(holder) {
             with(list[position]) {
 
                 binding.eachItem.text = this.name
+                val listName =
 
                 Log.d(TAG, "onBindViewHolder: "+ this)
                 binding.editTask.setOnClickListener {
-                    listener?.onEditItemClicked(this , position)
+                    listener!!.onEditItemClicked(this , position)
                 }
                 binding.deleteTask.setOnClickListener {
-                    listener?.onDeleteItemClicked(this , position)
+                    homeFragment.onDeleteItemClicked(this, position)
                 }
             }
         }
@@ -46,7 +48,7 @@ class ItemAdapter(private val list: MutableList<ItemData>) : RecyclerView.Adapte
     }
 
     interface ItemAdapterInterface{
-        fun onDeleteItemClicked(itemData: ItemData , position : Int)
+        fun onDeleteItemClicked(itemData: ItemData, position : Int)
         fun onEditItemClicked(itemData: ItemData , position: Int)
     }
 
