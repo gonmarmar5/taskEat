@@ -204,7 +204,7 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
             } else {
                 Toast.makeText(context, it.exception.toString(), Toast.LENGTH_SHORT).show()
             }
-            frag!!.dismiss()
+
         }
     }
 
@@ -284,19 +284,5 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
             }
         })
     }
-
-    override fun onEditItemClicked(toDoData: ItemData, position: Int) {
-        if (frag != null)
-            childFragmentManager.beginTransaction().remove(frag!!).commit()
-
-        // TODO
-        frag = ItemDialogFragment.newInstance(toDoData.id, toDoData.name, "listName")
-        frag!!.setListener(this)
-        frag!!.show(
-            childFragmentManager,
-            ItemDialogFragment.TAG
-        )
-    }
-
 
 }

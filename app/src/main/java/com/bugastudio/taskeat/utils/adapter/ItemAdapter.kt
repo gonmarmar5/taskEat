@@ -33,9 +33,7 @@ class ItemAdapter(private val list: MutableList<ItemData>, private val homeFragm
                 val listName =
 
                 Log.d(TAG, "onBindViewHolder: "+ this)
-                binding.editTask.setOnClickListener {
-                    listener!!.onEditItemClicked(this , position)
-                }
+
                 binding.deleteTask.setOnClickListener {
                     homeFragment.onDeleteItemClicked(this, position)
                 }
@@ -49,7 +47,6 @@ class ItemAdapter(private val list: MutableList<ItemData>, private val homeFragm
 
     interface ItemAdapterInterface{
         fun onDeleteItemClicked(itemData: ItemData, position : Int)
-        fun onEditItemClicked(itemData: ItemData , position: Int)
     }
 
 }

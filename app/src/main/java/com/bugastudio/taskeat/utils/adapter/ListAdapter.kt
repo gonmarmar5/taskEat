@@ -82,11 +82,12 @@ class ListAdapter(private val list: MutableList<ListData>, private var frag:  It
                         when (menuItem.itemId) {
                             R.id.action_popup_edit -> {
 
-                                //listener?.onEditListClicked(this , position)
+                                homeFragment.onEditListClicked(this , position)
+
                                 true
                             }
                             R.id.action_popup_delete -> {
-                                Log.d(TAG, listener.toString())
+
                                 homeFragment.onDeleteListClicked(this , position)
                                 true
                             }
