@@ -10,8 +10,8 @@ import com.bugastudio.taskeat.utils.model.ItemData
 class ItemAdapter(private val list: MutableList<ItemData>) : RecyclerView.Adapter<ItemAdapter.TaskViewHolder>() {
 
     private  val TAG = "ItemAdapter"
-    private var listener:TaskAdapterInterface? = null
-    fun setListener(listener:TaskAdapterInterface){
+    private var listener:ItemAdapterInterface? = null
+    fun setListener(listener:ItemAdapterInterface){
         this.listener = listener
     }
     class TaskViewHolder(val binding: EachTodoItemBinding) : RecyclerView.ViewHolder(binding.root)
@@ -24,7 +24,7 @@ class ItemAdapter(private val list: MutableList<ItemData>) : RecyclerView.Adapte
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-
+        
         with(holder) {
             with(list[position]) {
 
@@ -34,7 +34,6 @@ class ItemAdapter(private val list: MutableList<ItemData>) : RecyclerView.Adapte
                 binding.editTask.setOnClickListener {
                     listener?.onEditItemClicked(this , position)
                 }
-
                 binding.deleteTask.setOnClickListener {
                     listener?.onDeleteItemClicked(this , position)
                 }
@@ -46,7 +45,7 @@ class ItemAdapter(private val list: MutableList<ItemData>) : RecyclerView.Adapte
         return list.size
     }
 
-    interface TaskAdapterInterface{
+    interface ItemAdapterInterface{
         fun onDeleteItemClicked(itemData: ItemData , position : Int)
         fun onEditItemClicked(itemData: ItemData , position: Int)
     }

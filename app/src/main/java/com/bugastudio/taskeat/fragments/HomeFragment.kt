@@ -24,7 +24,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener, ListDialogFragment.OnDialogNextBtnClickListener, ListAdapter.ListAdapterInterface, ItemAdapter.TaskAdapterInterface {
+class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener, ListDialogFragment.OnDialogNextBtnClickListener, ListAdapter.ListAdapterInterface, ItemAdapter.ItemAdapterInterface {
 
     private val TAG = "HomeFragment"
     private lateinit var binding: FragmentHomeBinding
@@ -165,6 +165,7 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
         ItemList = mutableListOf()
         taskAdapter = ItemAdapter(ItemList)
         taskAdapter.setListener(this)
+
         binding_list.allChildList.adapter = taskAdapter
 
         binding.mainRecyclerView.setHasFixedSize(true)
@@ -263,13 +264,8 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
     }
 
     override fun onDeleteItemClicked(ItemData: ItemData, position: Int) {
-        database.child(ItemData.id.toString()).removeValue().addOnCompleteListener {
-            if (it.isSuccessful) {
-                Toast.makeText(context, "Deleted Successfully", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(context, it.exception.toString(), Toast.LENGTH_SHORT).show()
-            }
-        }
+        print("AAAAAAAAAAAAAAAAAAAAAAAA")
+
     }
 
     override fun onEditItemClicked(toDoData: ItemData, position: Int) {
