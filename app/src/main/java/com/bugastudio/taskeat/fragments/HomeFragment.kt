@@ -1,5 +1,6 @@
 package com.bugastudio.taskeat.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -50,6 +51,7 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -60,6 +62,12 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
 
         //get data from firebase
         getTaskFromFirebase()
+
+        getNumItemsFromFirebase { count ->
+            binding.myTasks.text = "Tienes " + count.toString() + " tareas en tus listas de hoy"
+        }
+
+        binding.hi.text = "¡Cuanto tiempo Genio!"
 
         binding.addListBtn.setOnClickListener {
             if (list_frag != null)
@@ -152,6 +160,31 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
 
         })
     }
+
+    private fun getNumItemsFromFirebase(callback: (Int) -> Unit) {
+        var counter : Int = 0
+        database.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var counter : Int = 0
+                for (taskSnapshot in snapshot.children) {
+                    val nestedList = taskSnapshot.child("nestedList").value as? List<HashMap<String, String>>
+                    if (nestedList != null) {
+                        for (element in nestedList) {
+                            counter +=1
+                        }
+                    }
+                }
+                callback(counter)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show()
+                callback(0)
+            }
+
+        })
+    }
+
 
     private fun init() {
 
