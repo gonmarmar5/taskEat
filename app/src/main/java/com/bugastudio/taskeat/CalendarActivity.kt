@@ -13,13 +13,14 @@ class CalendarActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_calendar)
 
-        /*
+        binding = FragmentCalendarBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         binding.buttonLists.setOnClickListener(View.OnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
         })
-        */
+
 
     }
 }
