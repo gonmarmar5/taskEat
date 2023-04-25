@@ -1,5 +1,7 @@
 package com.bugastudio.taskeat.fragments
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +11,7 @@ import android.widget.Toast
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bugastudio.taskeat.CalendarActivity
 import com.bugastudio.taskeat.R
 import com.bugastudio.taskeat.databinding.EachListItemBinding
 import com.bugastudio.taskeat.databinding.FragmentHomeBinding
@@ -25,8 +28,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-
-class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener, ListDialogFragment.OnDialogNextBtnClickListener, ListAdapter.ListAdapterInterface, ItemAdapter.TaskAdapterInterface {
+class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener, ListDialogFragment.OnDialogNextBtnClickListener, ListAdapter.ListAdapterInterface, ItemAdapter.ItemAdapterInterface {
 
     private val TAG = "HomeFragment"
     private lateinit var binding: FragmentHomeBinding
@@ -52,9 +54,15 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         binding_list = EachListItemBinding.inflate(inflater, container, false)
+
+        binding.buttonCalendar.setOnClickListener(View.OnClickListener {
+            startActivity(Intent(this.context, CalendarActivity::class.java))
+        })
+
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -65,6 +73,12 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
 
         //get data from firebase
         getTaskFromFirebase()
+
+        getNumItemsFromFirebase { count ->
+            binding.myTasks.text = "Tienes " + count.toString() + " tareas en tus listas de hoy"
+        }
+
+        binding.hi.text = "¡Cuanto tiempo genio!"
 
         binding.addListBtn.setOnClickListener {
             if (list_frag != null)
@@ -165,6 +179,31 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
         })
     }
 
+    private fun getNumItemsFromFirebase(callback: (Int) -> Unit) {
+        var counter : Int = 0
+        database.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var counter : Int = 0
+                for (taskSnapshot in snapshot.children) {
+                    val nestedList = taskSnapshot.child("nestedList").value as? List<HashMap<String, String>>
+                    if (nestedList != null) {
+                        for (element in nestedList) {
+                            counter +=1
+                        }
+                    }
+                }
+                callback(counter)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show()
+                callback(0)
+            }
+
+        })
+    }
+
+
     private fun init() {
 
         auth = FirebaseAuth.getInstance()
@@ -175,8 +214,10 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
         binding_list.allChildList.layoutManager = LinearLayoutManager(context)
 
         ItemList = mutableListOf()
-        taskAdapter = ItemAdapter(ItemList)
+        taskAdapter = ItemAdapter(ItemList, this)
         taskAdapter.setListener(this)
+        Log.d(TAG, this.toString())
+
         binding_list.allChildList.adapter = taskAdapter
 
         binding.mainRecyclerView.setHasFixedSize(true)
@@ -214,12 +255,12 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
             } else {
                 Toast.makeText(context, it.exception.toString(), Toast.LENGTH_SHORT).show()
             }
-            frag!!.dismiss()
+
         }
     }
 
     override fun onDeleteListClicked(listData: ListData, position: Int) {
-        database.child(listData.id.toString()).removeValue().addOnCompleteListener {
+        database.child(listData.id).removeValue().addOnCompleteListener {
             if (it.isSuccessful) {
                 Toast.makeText(context, "Deleted Successfully", Toast.LENGTH_SHORT).show()
             } else {
@@ -252,6 +293,7 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
                         val nestedList = list.nestedList
                         val updatedList = nestedList + item
                         listSnapshot.ref.child("nestedList").setValue(updatedList)
+                        Toast.makeText(context, "Deleted Successfully", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -275,27 +317,23 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
     }
 
     override fun onDeleteItemClicked(ItemData: ItemData, position: Int) {
-        database.child(ItemData.id.toString()).removeValue().addOnCompleteListener {
-            if (it.isSuccessful) {
-                Toast.makeText(context, "Deleted Successfully", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(context, it.exception.toString(), Toast.LENGTH_SHORT).show()
+
+        database.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(dataSnapshot: DataSnapshot){
+                for (listSnapshot in dataSnapshot.children){
+                    val list = listSnapshot.getValue(ListData::class.java)
+                    if (list?.nestedList!!.contains(ItemData)){
+                        val nestedList = list.nestedList
+                        val updatedList = nestedList - ItemData
+                        listSnapshot.ref.child("nestedList").setValue(updatedList)
+                    }
+                }
             }
-        }
+
+            override fun onCancelled(error: DatabaseError) {
+                //handle onCancelled event
+            }
+        })
     }
-
-    override fun onEditItemClicked(toDoData: ItemData, position: Int) {
-        if (frag != null)
-            childFragmentManager.beginTransaction().remove(frag!!).commit()
-
-        // TODO
-        frag = ItemDialogFragment.newInstance(toDoData.id, toDoData.name, "listName")
-        frag!!.setListener(this)
-        frag!!.show(
-            childFragmentManager,
-            ItemDialogFragment.TAG
-        )
-    }
-
 
 }
