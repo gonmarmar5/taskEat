@@ -67,7 +67,7 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
             binding.myTasks.text = "Tienes " + count.toString() + " tareas en tus listas de hoy"
         }
 
-        binding.hi.text = "¡Cuanto tiempo Genio!"
+        binding.hi.text = "¡Cuanto tiempo genio!"
 
         binding.addListBtn.setOnClickListener {
             if (list_frag != null)
