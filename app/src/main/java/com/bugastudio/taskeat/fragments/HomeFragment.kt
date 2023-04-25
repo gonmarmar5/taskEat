@@ -1,6 +1,7 @@
 package com.bugastudio.taskeat.fragments
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bugastudio.taskeat.CalendarActivity
 import com.bugastudio.taskeat.R
 import com.bugastudio.taskeat.databinding.EachListItemBinding
 import com.bugastudio.taskeat.databinding.FragmentHomeBinding
@@ -48,6 +50,11 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         binding_list = EachListItemBinding.inflate(inflater, container, false)
+
+        binding.buttonCalendar.setOnClickListener(View.OnClickListener {
+            startActivity(Intent(this.context, CalendarActivity::class.java))
+        })
+
         return binding.root
     }
 

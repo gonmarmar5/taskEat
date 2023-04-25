@@ -76,7 +76,7 @@
         app:layout_constraintTop_toBottomOf="@+id/calendar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
-
+    <!--
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calendarRecyclerView"
         android:layout_width="0dp"
@@ -88,7 +88,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/today_tasks"
         app:layout_constraintVertical_bias="1.0" />
-
+    -->
     <!-- Bottom Menu -->
     <LinearLayout
         android:id="@+id/linearLayout2"
