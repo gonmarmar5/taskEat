@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/category"
-        android:icon="@drawable/category"
-        android:title="Category" />
+    <group android:id="@+id/categoriesGroup">
+        <item
+            android:id="@+id/category"
+            android:icon="@drawable/category"
+            android:title="Categorías"
+            />
+
+    </group>
+
     <item
         android:id="@+id/completedList"
         android:icon="@drawable/completed_lists"
-        android:title="Completed Lists" />
+        android:title="Listas completadas" />
     <item
         android:id="@+id/settings"
         android:icon="@drawable/settings"
-        android:title="Settings" />
+        android:title="Configuración" />
 </menu>

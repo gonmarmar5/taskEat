@@ -52,7 +52,7 @@ class CategoryDialogFragment : DialogFragment() {
         if (arguments != null){
 
             categoryData = CategoryData(arguments?.getString("categoryId").toString() ,arguments?.getString("category").toString())
-            binding.todoEt.setText(categoryData?.category)
+            binding.todoEt.setText(categoryData?.name)
         }
 
 
@@ -67,7 +67,7 @@ class CategoryDialogFragment : DialogFragment() {
                 if (categoryData == null){
                     listener?.saveCategory(todoTask , binding.todoEt)
                 }else{
-                    categoryData!!.category = todoTask
+                    categoryData!!.name = todoTask
                     listener?.updateCategory(categoryData!!, binding.todoEt)
                 }
 

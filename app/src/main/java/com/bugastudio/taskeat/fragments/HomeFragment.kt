@@ -8,16 +8,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bugastudio.taskeat.CalendarActivity
 import com.bugastudio.taskeat.R
 import com.bugastudio.taskeat.databinding.EachListItemBinding
 import com.bugastudio.taskeat.databinding.FragmentHomeBinding
-import com.bugastudio.taskeat.utils.adapter.ListAdapter
 import com.bugastudio.taskeat.utils.adapter.ItemAdapter
-import com.bugastudio.taskeat.utils.model.ListData
+import com.bugastudio.taskeat.utils.adapter.ListAdapter
 import com.bugastudio.taskeat.utils.model.ItemData
+import com.bugastudio.taskeat.utils.model.ListData
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -42,7 +43,10 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
     private lateinit var listAdapter: ListAdapter
     private lateinit var ItemList: MutableList<ItemData>
     private lateinit var listItemList: MutableList<ListData>
-
+    var mCallback: MyListener? = null
+    interface MyListener {
+        fun openMenu()
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -86,6 +90,13 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
                 ListDialogFragment.TAG
             )
         }
+
+        binding.buttonMenu.setOnClickListener {
+
+            var mCallback = activity as MyListener
+            mCallback.openMenu()
+        }
+
         //TODO
         var ref = database.ref
 
