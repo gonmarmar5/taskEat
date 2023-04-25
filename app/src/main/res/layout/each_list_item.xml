@@ -21,18 +21,30 @@
             android:paddingVertical="20dp"
             android:background="@color/background_task">
 
+            <ImageView
+                android:id="@+id/three_dots"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/three_dots"
+                android:tag="0"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.571" />
+
             <TextView
                 android:id="@+id/eachList"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
-                android:paddingStart="16dp"
+                android:paddingStart="8dp"
                 android:text="Lista de la compra"
                 android:textColor="@color/white"
                 android:textSize="17sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintBottom_toBottomOf="@id/three_dots"
+                app:layout_constraintStart_toEndOf="@id/three_dots"
+                app:layout_constraintTop_toTopOf="@id/three_dots" />
 
             <ImageView
             android:id="@+id/addTaskButton"

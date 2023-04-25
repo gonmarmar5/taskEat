@@ -1,8 +1,11 @@
 package com.bugastudio.taskeat.utils.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
+
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +13,7 @@ import com.bugastudio.taskeat.R
 import com.bugastudio.taskeat.databinding.EachListItemBinding
 import com.bugastudio.taskeat.fragments.HomeFragment
 import com.bugastudio.taskeat.fragments.ItemDialogFragment
+import com.bugastudio.taskeat.utils.model.ItemData
 
 import com.bugastudio.taskeat.utils.model.ListData
 
@@ -17,9 +21,11 @@ class ListAdapter(private val list: MutableList<ListData>, private var frag:  It
     private  val TAG = "ListAdapter"
     private var listener:ListAdapterInterface? = null
 
-
     fun setListener(listener:ListAdapterInterface){
         this.listener = listener
+
+        Log.d(TAG, listener.toString())
+
     }
     class ListViewHolder(val binding: EachListItemBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -38,7 +44,8 @@ class ListAdapter(private val list: MutableList<ListData>, private var frag:  It
             with(list[position]) {
                 binding.eachList.text = name
 
-                val adapter = ItemAdapter(nestedList.toMutableList())
+                val adapter = ItemAdapter(nestedList.toMutableList(), homeFragment)
+
                 binding.allChildList.layoutManager = LinearLayoutManager(holder.itemView.context)
                 binding.allChildList.setHasFixedSize(true)
                 binding.allChildList.adapter = adapter
@@ -66,6 +73,29 @@ class ListAdapter(private val list: MutableList<ListData>, private var frag:  It
                     binding.addTaskButton.tag = name
                     frag!!.setListener(homeFragment)
                     frag!!.show(childFragmentManager, ItemDialogFragment.TAG)
+                }
+
+                binding.threeDots.setOnClickListener {
+                    val popupMenu = PopupMenu(it.context, it)
+                    popupMenu.inflate(R.menu.popup_three_dots)
+                    popupMenu.setOnMenuItemClickListener {menuItem ->
+                        when (menuItem.itemId) {
+                            R.id.action_popup_edit -> {
+
+                                homeFragment.onEditListClicked(this , position)
+
+                                true
+                            }
+                            R.id.action_popup_delete -> {
+
+                                homeFragment.onDeleteListClicked(this , position)
+                                true
+                            }
+                            else -> false
+                        }
+                    }
+                    popupMenu.show()
+
                 }
             }
         }
