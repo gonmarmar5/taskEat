@@ -2,12 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <group android:id="@+id/categories">
+    <group android:id="@+id/categoriesGroup">
         <item
             android:id="@+id/category"
             android:icon="@drawable/category"
             android:title="Categorías"
             />
+
     </group>
 
     <item

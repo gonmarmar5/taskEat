@@ -1,8 +1,7 @@
 package com.bugastudio.taskeat
 
-import android.nfc.Tag
+import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -11,9 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.bugastudio.taskeat.fragments.CategoryDialogFragment
-import com.bugastudio.taskeat.fragments.CategoryDialogFragment.Companion.TAG
+import com.bugastudio.taskeat.fragments.HomeFragment
 import com.bugastudio.taskeat.utils.model.CategoryData
-import com.bugastudio.taskeat.utils.model.ListData
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
@@ -25,17 +23,21 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 
-class MainActivity : AppCompatActivity() {
-
+class MainActivity : AppCompatActivity() , HomeFragment.MyListener {
+    override fun openMenu() {
+        drawerLayout.openDrawer(navView)
+    }
     // Initialise the DrawerLayout, NavigationView and ToggleBar
-    private lateinit var drawerLayout: DrawerLayout
+    lateinit var drawerLayout: DrawerLayout
     private lateinit var actionBarToggle: ActionBarDrawerToggle
-    private lateinit var navView: NavigationView
+    lateinit var navView: NavigationView
     private lateinit var database: DatabaseReference
     private lateinit var auth: FirebaseAuth
     private lateinit var authId: String
     private lateinit var addCategoryButton: MenuItem
     private var frag: CategoryDialogFragment? = null
+    private var i: Int = 2
+    lateinit var listItem: MutableList<MenuItem>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,23 +60,17 @@ class MainActivity : AppCompatActivity() {
 
         init()
 
-        addCategoryButton= navView.menu.add(R.id.categories,Menu.FIRST, Menu.FIRST,R.string.add_category)
+        addCategoryButton = navView.menu.add(R.id.categoriesGroup,Menu.FIRST, Menu.FIRST,R.string.add_category)
         addCategoryButton.setIcon(R.drawable.add_box)
-        //addCategoryButton.isVisible=false
-        var listItem: MutableList<MenuItem> = insertCategories()
-        invalidateOptionsMenu()
+
+        insertCategories()
+
         // Call setNavigationItemSelectedListener on the NavigationView to detect when items are clicked
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.category -> {
                     Toast.makeText(this, "Category clicked", Toast.LENGTH_SHORT).show()
 
-                    /*
-                    navView.menu.findItem(addCategoryButton.itemId)?.let{updatedMenuItem ->
-                        updatedMenuItem.isVisible = !updatedMenuItem.isVisible
-
-                    }
-                    */
                     addCategoryButton.isVisible= !addCategoryButton.isVisible
                     for(category in listItem){
                         category.isVisible= !category.isVisible
@@ -109,6 +105,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+
     }
 
     private fun init() {
@@ -120,15 +117,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun insertCategories(): MutableList<MenuItem> {
-        var listItem: MutableList<MenuItem> = mutableListOf<MenuItem>()
-        var i:Int = 2
+        listItem = mutableListOf<MenuItem>()
+
         database.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (listSnapshot in dataSnapshot.children) {
                     val category = listSnapshot.getValue(CategoryData::class.java)
                     if (category != null) {
 
-                        var mi: MenuItem = navView.menu.add(R.id.categories,i, i,category.name)
+                        var mi: MenuItem = navView.menu.add(R.id.categoriesGroup,i, i,category.name)
                         //mi.isVisible=false
                         mi.setIcon(R.drawable.purple_category_vector)
                         listItem.add(mi)
@@ -173,7 +170,10 @@ class MainActivity : AppCompatActivity() {
                     println("succesful")
                     Toast.makeText(this, "Category Added Successfully", Toast.LENGTH_SHORT).show()
                     categoryEditText.text = null
-
+                    var mi: MenuItem = navView.menu.add(R.id.categoriesGroup,i, i,name)
+                    //mi.isVisible=false
+                    mi.setIcon(R.drawable.purple_category_vector)
+                    listItem.add(mi)
                 } else {
                     println("not succesful")
                     Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
