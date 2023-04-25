@@ -69,11 +69,16 @@ class MainActivity : AppCompatActivity() {
                 R.id.category -> {
                     Toast.makeText(this, "Category clicked", Toast.LENGTH_SHORT).show()
 
+                    /*
                     navView.menu.findItem(addCategoryButton.itemId)?.let{updatedMenuItem ->
                         updatedMenuItem.isVisible = !updatedMenuItem.isVisible
 
                     }
-
+                    */
+                    addCategoryButton.isVisible= !addCategoryButton.isVisible
+                    for(category in listItem){
+                        category.isVisible= !category.isVisible
+                    }
                     true
                 }
                 addCategoryButton.itemId ->{

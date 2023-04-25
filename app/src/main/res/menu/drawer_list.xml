@@ -6,16 +6,16 @@
         <item
             android:id="@+id/category"
             android:icon="@drawable/category"
-            android:title="Category"
+            android:title="Categorías"
             />
     </group>
 
     <item
         android:id="@+id/completedList"
         android:icon="@drawable/completed_lists"
-        android:title="Completed Lists" />
+        android:title="Listas completadas" />
     <item
         android:id="@+id/settings"
         android:icon="@drawable/settings"
-        android:title="Settings" />
+        android:title="Configuración" />
 </menu>
