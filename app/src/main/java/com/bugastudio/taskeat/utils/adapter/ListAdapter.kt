@@ -13,8 +13,6 @@ import com.bugastudio.taskeat.R
 import com.bugastudio.taskeat.databinding.EachListItemBinding
 import com.bugastudio.taskeat.fragments.HomeFragment
 import com.bugastudio.taskeat.fragments.ItemDialogFragment
-import com.bugastudio.taskeat.utils.model.ItemData
-
 import com.bugastudio.taskeat.utils.model.ListData
 
 class ListAdapter(private val list: MutableList<ListData>, private var frag:  ItemDialogFragment?, private val childFragmentManager: FragmentManager, private val homeFragment: HomeFragment) : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {

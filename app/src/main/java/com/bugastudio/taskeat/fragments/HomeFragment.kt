@@ -119,6 +119,7 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
 
                 ItemList.clear()
                 for (taskSnapshot in snapshot.children) {
+
                     val todoTask =
                         taskSnapshot.key?.let { ItemData(it, taskSnapshot.value.toString())}
                     if (todoTask != null) {
@@ -149,7 +150,8 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
                     val nestedListItemData = mutableListOf<ItemData>()
                     if (nestedList != null) {
                         for (element in nestedList) {
-                            val item = ItemData(element["id"] as String, element["name"] as String)
+                            val item = ItemData(element["id"] as String, element["name"] as String, element["category"] as String?)
+
                             nestedListItemData.add(item)
                         }
                     }
@@ -282,8 +284,8 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
     }
 
     override fun saveItem(name: String, listName: String, todoEdit: TextInputEditText) {
-
-        val item = ItemData(name)
+        val pito:String = ""
+        val item = ItemData(name, pito)
 
         database.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(dataSnapshot: DataSnapshot){

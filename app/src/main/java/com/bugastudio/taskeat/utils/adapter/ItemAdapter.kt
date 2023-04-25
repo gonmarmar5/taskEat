@@ -30,8 +30,6 @@ class ItemAdapter(private val list: MutableList<ItemData>, private val homeFragm
             with(list[position]) {
 
                 binding.eachItem.text = this.name
-                val listName =
-
                 Log.d(TAG, "onBindViewHolder: "+ this)
 
                 binding.deleteTask.setOnClickListener {
