@@ -63,46 +63,49 @@ class MainActivity : AppCompatActivity() , HomeFragment.MyListener {
         addCategoryButton = navView.menu.add(R.id.categoriesGroup,Menu.FIRST, Menu.FIRST,R.string.add_category)
         addCategoryButton.setIcon(R.drawable.add_box)
 
-        insertCategories()
+        if(auth.currentUser != null){
+            insertCategories()
 
-        // Call setNavigationItemSelectedListener on the NavigationView to detect when items are clicked
-        navView.setNavigationItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.category -> {
-                    Toast.makeText(this, "Category clicked", Toast.LENGTH_SHORT).show()
+            // Call setNavigationItemSelectedListener on the NavigationView to detect when items are clicked
+            navView.setNavigationItemSelectedListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.category -> {
+                        Toast.makeText(this, "Category clicked", Toast.LENGTH_SHORT).show()
 
-                    addCategoryButton.isVisible= !addCategoryButton.isVisible
-                    for(category in listItem){
-                        category.isVisible= !category.isVisible
+                        addCategoryButton.isVisible= !addCategoryButton.isVisible
+                        for(category in listItem){
+                            category.isVisible= !category.isVisible
+                        }
+                        true
                     }
-                    true
-                }
-                addCategoryButton.itemId ->{
-                    Toast.makeText(this, "Añadir categoría", Toast.LENGTH_SHORT).show()
-                    if (frag != null)
-                        supportFragmentManager.beginTransaction().remove(frag!!).commit() //El support me lo he inventado
-                    frag = CategoryDialogFragment()
-                    frag!!.setListener(this)
+                    addCategoryButton.itemId ->{
+                        Toast.makeText(this, "Añadir categoría", Toast.LENGTH_SHORT).show()
+                        if (frag != null)
+                            supportFragmentManager.beginTransaction().remove(frag!!).commit() //El support me lo he inventado
+                        frag = CategoryDialogFragment()
+                        frag!!.setListener(this)
 
-                    frag!!.show(
-                        supportFragmentManager,
-                        CategoryDialogFragment.TAG
-                    )
+                        frag!!.show(
+                            supportFragmentManager,
+                            CategoryDialogFragment.TAG
+                        )
 
-                    true
-                }
-                R.id.completedList -> {
-                    Toast.makeText(this, "Completed List clicked", Toast.LENGTH_SHORT).show()
-                    true
-                }
-                R.id.settings -> {
-                    Toast.makeText(this, "Settings clicked", Toast.LENGTH_SHORT).show()
-                    true
-                }
-                else -> {
-                    false
+                        true
+                    }
+                    R.id.completedList -> {
+                        Toast.makeText(this, "Completed List clicked", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+                    R.id.settings -> {
+                        Toast.makeText(this, "Settings clicked", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+                    else -> {
+                        false
+                    }
                 }
             }
+
         }
 
 
@@ -111,8 +114,10 @@ class MainActivity : AppCompatActivity() , HomeFragment.MyListener {
     private fun init() {
 
         auth = FirebaseAuth.getInstance()
-        authId = auth.currentUser!!.uid
-        database = Firebase.database("https://taskeat-d0db2-default-rtdb.europe-west1.firebasedatabase.app").getReference("Category").child(authId)
+        if(auth.currentUser != null){
+            authId = auth.currentUser!!.uid
+            database = Firebase.database("https://taskeat-d0db2-default-rtdb.europe-west1.firebasedatabase.app").getReference("Category").child(authId)
+        }
 
     }
 

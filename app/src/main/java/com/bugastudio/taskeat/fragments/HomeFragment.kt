@@ -283,9 +283,8 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
         )
     }
 
-    override fun saveItem(name: String, listName: String, todoEdit: TextInputEditText) {
-        val pito:String = ""
-        val item = ItemData(name, pito)
+    override fun saveItem(name: String, categoryId: String, listName: String, todoEdit: TextInputEditText) {
+        val item = ItemData(name, categoryId)
 
         database.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(dataSnapshot: DataSnapshot){
