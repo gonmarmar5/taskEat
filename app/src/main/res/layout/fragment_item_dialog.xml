@@ -109,8 +109,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.498"
-                android:background="@color/electric_purple"
                 android:popupBackground="@color/electric_purple"
+                android:textColor="@color/white"
+                style="@style/SpinnerStyle"
                 android:spinnerMode="dropdown"/>
             <Button
                 android:id="@+id/todoNextBtn2"
