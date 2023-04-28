@@ -10,7 +10,7 @@ data class ItemData(var id:String, var name:String, var categoryId:String? ){
         }
     }
 
-    constructor(name: String, categoryId: String) : this(generateId(), name, categoryId)
+    constructor(name: String, categoryId: String?) : this(generateId(), name, categoryId)
 
     constructor() : this("", "", "")
 

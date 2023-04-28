@@ -78,7 +78,6 @@ class ItemDialogFragment(private val listName: String) : DialogFragment() {
                     val category = listSnapshot.getValue(CategoryData::class.java)
                     if (category != null) {
                         listCategories.add(category.name)
-                        println(listCategories)
                     }
                 }
                 setCategories()
@@ -96,7 +95,7 @@ class ItemDialogFragment(private val listName: String) : DialogFragment() {
         binding.todoNextBtn.setOnClickListener {
 
             val nameItem = binding.todoEt.text.toString()
-            var categoryId = ""
+            var categoryId :String? = null
             if(spinner.selectedItem != "Sin categoría"){
                 database.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -108,21 +107,27 @@ class ItemDialogFragment(private val listName: String) : DialogFragment() {
                                 }
                             }
                         }
+                        saveItemAdapter(nameItem, categoryId)
                     }override fun onCancelled(error: DatabaseError) {
                         //handle onCancelled event
                     }
                 })
+            }else{
+                saveItemAdapter(nameItem, categoryId)
             }
-            if (nameItem.isNotEmpty()){
-                if (itemData == null){
-                    listener?.saveItem(nameItem, categoryId,listName, binding.todoEt)
-                }else{
-                    itemData!!.name = nameItem
-                    listener?.updateItem(itemData!!, binding.todoEt)
-                }
 
-        }
             dismiss()
+        }
+    }
+
+    private fun saveItemAdapter(nameItem:String, categoryId: String?){
+        if (nameItem.isNotEmpty()){
+            if (itemData == null){
+                listener?.saveItem(nameItem, categoryId, listName, binding.todoEt)
+            }else{
+                itemData!!.name = nameItem
+                listener?.updateItem(itemData!!, binding.todoEt)
+            }
         }
     }
     private fun setCategories(){
@@ -143,7 +148,7 @@ class ItemDialogFragment(private val listName: String) : DialogFragment() {
     }
 
     interface OnDialogNextBtnClickListener{
-        fun saveItem(nameItem:String, categoryId: String, listName : String, todoEdit:TextInputEditText)
+        fun saveItem(nameItem:String, categoryId: String?, listName : String, todoEdit:TextInputEditText)
         fun updateItem(itemData: ItemData , todoEdit:TextInputEditText)
     }
 

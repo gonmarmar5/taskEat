@@ -283,9 +283,9 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
         )
     }
 
-    override fun saveItem(name: String, categoryId: String, listName: String, todoEdit: TextInputEditText) {
-        val item = ItemData(name, categoryId)
+    override fun saveItem(name: String, categoryId: String?, listName: String, todoEdit: TextInputEditText) {
 
+        val item = ItemData(name, categoryId)
         database.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(dataSnapshot: DataSnapshot){
                 for (listSnapshot in dataSnapshot.children){
@@ -323,11 +323,9 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
             override fun onDataChange(dataSnapshot: DataSnapshot){
                 for (listSnapshot in dataSnapshot.children){
                     val list = listSnapshot.getValue(ListData::class.java)
-                    if (list?.nestedList!!.contains(ItemData)){
-                        val nestedList = list.nestedList
-                        val updatedList = nestedList - ItemData
-                        listSnapshot.ref.child("nestedList").setValue(updatedList)
-                    }
+
+
+                    checkIfContainItemAndDelete(list,ItemData,listSnapshot)
                 }
             }
 
@@ -335,6 +333,17 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
                 //handle onCancelled event
             }
         })
+    }
+    private fun checkIfContainItemAndDelete(list: ListData?,item: ItemData, listSnapshot: DataSnapshot) {
+
+        for (element in list?.nestedList!!){
+            if(item.id == element.id){
+                val nestedList = list.nestedList
+                val updatedList = nestedList - element
+                listSnapshot.ref.child("nestedList").setValue(updatedList)
+            }
+        }
+
     }
 
 }

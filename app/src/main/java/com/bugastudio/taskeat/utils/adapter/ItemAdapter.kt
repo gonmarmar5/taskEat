@@ -25,10 +25,10 @@ class ItemAdapter(private val list: MutableList<ItemData>, private val homeFragm
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
+        println(list)
 
         with(holder) {
             with(list[position]) {
-
                 binding.eachItem.text = this.name
                 Log.d(TAG, "onBindViewHolder: "+ this)
 
