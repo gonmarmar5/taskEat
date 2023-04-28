@@ -1,10 +1,17 @@
 package com.bugastudio.taskeat
 
 import android.app.Activity
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
+import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -21,6 +28,8 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import java.util.Objects
+import kotlin.random.Random
 
 
 class MainActivity : AppCompatActivity() , HomeFragment.MyListener {
@@ -130,9 +139,11 @@ class MainActivity : AppCompatActivity() , HomeFragment.MyListener {
                     val category = listSnapshot.getValue(CategoryData::class.java)
                     if (category != null) {
 
-                        var mi: MenuItem = navView.menu.add(R.id.categoriesGroup,i, i,category.name)
-                        //mi.isVisible=false
+                        val mi: MenuItem = navView.menu.add(R.id.categoriesGroup,i, i,category.name)
+                        val filterColor = -getWordColor(category.name)
+                        val colorFilter = PorterDuffColorFilter(filterColor, PorterDuff.Mode.SRC_IN)
                         mi.setIcon(R.drawable.purple_category_vector)
+                        mi.icon.colorFilter = colorFilter
                         listItem.add(mi)
                         i++
                     }
@@ -143,6 +154,15 @@ class MainActivity : AppCompatActivity() , HomeFragment.MyListener {
         })
 
         return listItem
+    }
+    private fun getWordColor(word: String): Int {
+        // Generate a unique integer for the word using the built-in hash function
+        // and convert it to a 3-tuple of RGB values
+        val random = Random(Objects.hash(word))
+        val r = random.nextInt(256)
+        val g = random.nextInt(256)
+        val b = random.nextInt(256)
+        return (r shl 16) or (g shl 8) or b
     }
 
     // override the onSupportNavigateUp() function to launch the Drawer when the hamburger icon is clicked
@@ -164,6 +184,7 @@ class MainActivity : AppCompatActivity() , HomeFragment.MyListener {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun saveCategory(name: String, categoryEditText: TextInputEditText) {
 
         val category = CategoryData(name)
@@ -176,8 +197,10 @@ class MainActivity : AppCompatActivity() , HomeFragment.MyListener {
                     Toast.makeText(this, "Category Added Successfully", Toast.LENGTH_SHORT).show()
                     categoryEditText.text = null
                     var mi: MenuItem = navView.menu.add(R.id.categoriesGroup,i, i,name)
-                    //mi.isVisible=false
                     mi.setIcon(R.drawable.purple_category_vector)
+                    val filter: PorterDuffColorFilter = PorterDuffColorFilter(-getWordColor(category.name), PorterDuff.Mode.SRC_ATOP)
+                    mi.icon.colorFilter= filter
+
                     listItem.add(mi)
                 } else {
                     println("not succesful")
