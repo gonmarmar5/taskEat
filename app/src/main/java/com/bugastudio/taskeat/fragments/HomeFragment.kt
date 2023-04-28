@@ -294,7 +294,7 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
                         val nestedList = list.nestedList
                         val updatedList = nestedList + item
                         listSnapshot.ref.child("nestedList").setValue(updatedList)
-                        Toast.makeText(context, "Deleted Successfully", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Saved Successfully", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
