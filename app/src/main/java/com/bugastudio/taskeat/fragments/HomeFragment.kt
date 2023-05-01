@@ -119,6 +119,7 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
 
                 ItemList.clear()
                 for (taskSnapshot in snapshot.children) {
+
                     val todoTask =
                         taskSnapshot.key?.let { ItemData(it, taskSnapshot.value.toString())}
                     if (todoTask != null) {
@@ -149,7 +150,7 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
                     val nestedListItemData = mutableListOf<ItemData>()
                     if (nestedList != null) {
                         for (element in nestedList) {
-                            val item = ItemData(element["id"] as String, element["name"] as String)
+                            val item = ItemData(element["id"] as String, element["name"] as String, element["categoryId"] as String?)
                             nestedListItemData.add(item)
                         }
                     }
@@ -281,10 +282,9 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
         )
     }
 
-    override fun saveItem(name: String, listName: String, todoEdit: TextInputEditText) {
+    override fun saveItem(name: String, categoryId: String?, listName: String, todoEdit: TextInputEditText) {
 
-        val item = ItemData(name)
-
+        val item = ItemData(name, categoryId)
         database.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(dataSnapshot: DataSnapshot){
                 for (listSnapshot in dataSnapshot.children){
@@ -293,7 +293,7 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
                         val nestedList = list.nestedList
                         val updatedList = nestedList + item
                         listSnapshot.ref.child("nestedList").setValue(updatedList)
-                        Toast.makeText(context, "Deleted Successfully", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Saved Successfully", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -322,11 +322,9 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
             override fun onDataChange(dataSnapshot: DataSnapshot){
                 for (listSnapshot in dataSnapshot.children){
                     val list = listSnapshot.getValue(ListData::class.java)
-                    if (list?.nestedList!!.contains(ItemData)){
-                        val nestedList = list.nestedList
-                        val updatedList = nestedList - ItemData
-                        listSnapshot.ref.child("nestedList").setValue(updatedList)
-                    }
+
+
+                    checkIfContainItemAndDelete(list,ItemData,listSnapshot)
                 }
             }
 
@@ -334,6 +332,17 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
                 //handle onCancelled event
             }
         })
+    }
+    private fun checkIfContainItemAndDelete(list: ListData?,item: ItemData, listSnapshot: DataSnapshot) {
+
+        for (element in list?.nestedList!!){
+            if(item.id == element.id){
+                val nestedList = list.nestedList
+                val updatedList = nestedList - element
+                listSnapshot.ref.child("nestedList").setValue(updatedList)
+            }
+        }
+
     }
 
 }
