@@ -13,8 +13,6 @@ import com.bugastudio.taskeat.R
 import com.bugastudio.taskeat.databinding.EachListItemBinding
 import com.bugastudio.taskeat.fragments.HomeFragment
 import com.bugastudio.taskeat.fragments.ItemDialogFragment
-import com.bugastudio.taskeat.utils.model.ItemData
-
 import com.bugastudio.taskeat.utils.model.ListData
 
 class ListAdapter(private val list: MutableList<ListData>, private var frag:  ItemDialogFragment?, private val childFragmentManager: FragmentManager, private val homeFragment: HomeFragment) : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
@@ -39,11 +37,9 @@ class ListAdapter(private val list: MutableList<ListData>, private var frag:  It
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val item = list[position]
         var isExpandable = item.isExpandable
-
         with(holder) {
             with(list[position]) {
                 binding.eachList.text = name
-
                 val adapter = ItemAdapter(nestedList.toMutableList(), homeFragment)
 
                 binding.allChildList.layoutManager = LinearLayoutManager(holder.itemView.context)

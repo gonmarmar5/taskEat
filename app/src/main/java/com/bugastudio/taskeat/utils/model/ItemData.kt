@@ -1,6 +1,6 @@
 package com.bugastudio.taskeat.utils.model
 
-data class ItemData(var id:String, var name:String){
+data class ItemData(var id:String, var name:String, var categoryId:String? ){
     companion object {
         private var currentId = 1
 
@@ -10,8 +10,8 @@ data class ItemData(var id:String, var name:String){
         }
     }
 
-    constructor(name: String) : this(generateId(), name)
+    constructor(name: String, categoryId: String?) : this(generateId(), name, categoryId)
 
-    constructor() : this("", "")
+    constructor() : this("", "", "")
 
 }

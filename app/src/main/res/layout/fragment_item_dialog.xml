@@ -95,21 +95,24 @@
             app:layout_constraintStart_toStartOf="@+id/cardView1"
             app:layout_constraintEnd_toEndOf="@+id/cardView1">
 
-            <Button
-                android:id="@+id/todoNextBtn1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:textColor="@color/not_selected_text"
-                android:backgroundTint="@color/background"
-                app:strokeColor="@color/electric_purple"
-                app:strokeWidth="1dp"
-                android:textSize="12dp"
-                android:text="@string/category"
-                >
-
-            </Button>
-
+            <Spinner
+                android:id="@+id/categorySpinner"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.502"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.498"
+                android:popupBackground="@color/electric_purple"
+                android:textColor="@color/white"
+                style="@style/SpinnerStyle"
+                android:spinnerMode="dropdown"/>
             <Button
                 android:id="@+id/todoNextBtn2"
                 android:layout_width="100dp"
