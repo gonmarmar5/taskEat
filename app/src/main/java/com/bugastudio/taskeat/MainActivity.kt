@@ -2,10 +2,14 @@ package com.bugastudio.taskeat
 
 import android.app.Activity
 import android.content.res.ColorStateList
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.ShapeDrawable
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
@@ -14,8 +18,10 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.lifecycleScope
 import com.bugastudio.taskeat.fragments.CategoryDialogFragment
 import com.bugastudio.taskeat.fragments.HomeFragment
 import com.bugastudio.taskeat.utils.model.CategoryData
@@ -28,7 +34,10 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import java.util.Objects
+import kotlin.coroutines.resumeWithException
 import kotlin.random.Random
 
 
@@ -73,7 +82,17 @@ class MainActivity : AppCompatActivity() , HomeFragment.MyListener {
         addCategoryButton.setIcon(R.drawable.add_box)
 
         if(auth.currentUser != null){
-            insertCategories()
+            lifecycleScope.launch {
+                try {
+                    insertCategories()
+                    // Agrega elementos al menú después de obtener la lista de categorías
+                    //tintCategories()
+
+                } catch (e: Exception) {
+                    // Manejar el error aquí
+                }
+            }
+
 
             // Call setNavigationItemSelectedListener on the NavigationView to detect when items are clicked
             navView.setNavigationItemSelectedListener { menuItem ->
@@ -130,30 +149,60 @@ class MainActivity : AppCompatActivity() , HomeFragment.MyListener {
 
     }
 
-    private fun insertCategories(): MutableList<MenuItem> {
+    suspend fun insertCategories(): MutableList<MenuItem> = suspendCancellableCoroutine{continuation ->
         listItem = mutableListOf<MenuItem>()
 
-        database.addListenerForSingleValueEvent(object : ValueEventListener {
+        val listener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val list = mutableListOf<CategoryData>()
                 for (listSnapshot in dataSnapshot.children) {
                     val category = listSnapshot.getValue(CategoryData::class.java)
                     if (category != null) {
 
                         val mi: MenuItem = navView.menu.add(R.id.categoriesGroup,i, i,category.name)
-                        val filterColor = -getWordColor(category.name)
-                        val colorFilter = PorterDuffColorFilter(filterColor, PorterDuff.Mode.SRC_IN)
-                        mi.setIcon(R.drawable.purple_category_vector)
-                        mi.icon.colorFilter = colorFilter
+                        val drawable: Drawable? = ContextCompat.getDrawable(applicationContext, R.drawable.purple_category_vector)
+                        // Crea una copia del objeto Drawable utilizando el constructor del tipo de Drawable que deseas utilizar
+                        val copyDrawable = when (drawable) {
+                            is BitmapDrawable -> BitmapDrawable(resources, drawable.bitmap.copy(
+                                Bitmap.Config.ARGB_8888, true))
+
+                            is ShapeDrawable -> ShapeDrawable(drawable.shape).apply {
+                                paint.color = drawable.paint.color
+                            }
+                            else -> drawable?.mutate()
+                        }
+                        if (copyDrawable != null) {
+                            copyDrawable.colorFilter=PorterDuffColorFilter(-getWordColor(mi.title as String), PorterDuff.Mode.SRC_IN)
+                        }
+                        mi.icon = copyDrawable
+
                         listItem.add(mi)
                         i++
                     }
                 }
+                continuation.resume(listItem){
+                    database.removeEventListener(this)
+                }
+
             }override fun onCancelled(error: DatabaseError) {
                 //handle onCancelled event
+                continuation.resumeWithException(error.toException())
             }
-        })
+        }
+        database.addListenerForSingleValueEvent(listener)
 
-        return listItem
+        continuation.invokeOnCancellation {
+            database.removeEventListener(listener)
+        }
+
+    }
+    private fun tintCategories(){
+        for (mi in listItem) {
+            println(mi.title as String)
+            // Establecer el filtro de color para el icono del elemento de menú actual
+            mi.icon.setColorFilter(PorterDuffColorFilter(-getWordColor(mi.title as String), PorterDuff.Mode.SRC_IN))
+        }
+
     }
     private fun getWordColor(word: String): Int {
         // Generate a unique integer for the word using the built-in hash function
@@ -197,9 +246,21 @@ class MainActivity : AppCompatActivity() , HomeFragment.MyListener {
                     Toast.makeText(this, "Category Added Successfully", Toast.LENGTH_SHORT).show()
                     categoryEditText.text = null
                     var mi: MenuItem = navView.menu.add(R.id.categoriesGroup,i, i,name)
-                    mi.setIcon(R.drawable.purple_category_vector)
-                    val filter: PorterDuffColorFilter = PorterDuffColorFilter(-getWordColor(category.name), PorterDuff.Mode.SRC_ATOP)
-                    mi.icon.colorFilter= filter
+                    val drawable: Drawable? = ContextCompat.getDrawable(applicationContext, R.drawable.purple_category_vector)
+                    // Crea una copia del objeto Drawable utilizando el constructor del tipo de Drawable que deseas utilizar
+                    val copyDrawable = when (drawable) {
+                        is BitmapDrawable -> BitmapDrawable(resources, drawable.bitmap.copy(
+                            Bitmap.Config.ARGB_8888, true))
+
+                        is ShapeDrawable -> ShapeDrawable(drawable.shape).apply {
+                            paint.color = drawable.paint.color
+                        }
+                        else -> drawable?.mutate()
+                    }
+                    if (copyDrawable != null) {
+                        copyDrawable.colorFilter=PorterDuffColorFilter(-getWordColor(mi.title as String), PorterDuff.Mode.SRC_IN)
+                    }
+                    mi.icon = copyDrawable
 
                     listItem.add(mi)
                 } else {

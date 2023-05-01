@@ -150,8 +150,7 @@ class HomeFragment : Fragment(), ItemDialogFragment.OnDialogNextBtnClickListener
                     val nestedListItemData = mutableListOf<ItemData>()
                     if (nestedList != null) {
                         for (element in nestedList) {
-                            val item = ItemData(element["id"] as String, element["name"] as String, element["category"] as String?)
-
+                            val item = ItemData(element["id"] as String, element["name"] as String, element["categoryId"] as String?)
                             nestedListItemData.add(item)
                         }
                     }

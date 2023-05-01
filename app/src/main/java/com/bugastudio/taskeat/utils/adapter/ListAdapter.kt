@@ -37,11 +37,9 @@ class ListAdapter(private val list: MutableList<ListData>, private var frag:  It
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val item = list[position]
         var isExpandable = item.isExpandable
-
         with(holder) {
             with(list[position]) {
                 binding.eachList.text = name
-
                 val adapter = ItemAdapter(nestedList.toMutableList(), homeFragment)
 
                 binding.allChildList.layoutManager = LinearLayoutManager(holder.itemView.context)
