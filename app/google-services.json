@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:634029091886:android:b2dc3c079aed229e1e03bf",
         "android_client_info": {
-          "package_name": "com.example.kotlintodopractice"
+          "package_name": "com.bugastudio.taskeat"
         }
       },
       "oauth_client": [
@@ -38,7 +38,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:634029091886:android:704ba46168f7b8641e03bf",
         "android_client_info": {
-          "package_name": "com.example.taskeat"
+          "package_name": "com.bugastudio.taskeat"
         }
       },
       "oauth_client": [
